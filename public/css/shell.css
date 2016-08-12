@@ -178,7 +178,7 @@ body {
   position: fixed !important;
   color: #ffffff;
   background: #000000;
-  z-index: -1;
+  z-index: -2;
 	text-align:center;
 	display: table;
 }
@@ -189,6 +189,18 @@ body {
 	font-family: makinas-scrap-5;
 	display: table-cell;
 	vertical-align: middle;
+}
+.spa-shell-bg-video {
+	will-change: opacity;
+	right:0;
+	bottom:0;
+	min-width:100%;
+	min-height:100%;
+  width: auto;
+  height: auto;
+  position: fixed !important;
+  z-index: -1;
+	opacity: 0.4;
 }
 .spa-shell-head {
   position: fixed;
