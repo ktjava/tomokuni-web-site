@@ -177,8 +177,8 @@ body {
   height: 100%;
   position: fixed !important;
   color: #ffffff;
-  background: #000000;
-  z-index: -2;
+  background-color: rgba(0,0,0,0);
+  z-index: -1;
 	text-align:center;
 	display: table;
 }
@@ -199,7 +199,7 @@ body {
   width: auto;
   height: auto;
   position: fixed !important;
-  z-index: -1;
+  z-index: -2;
 	opacity: 0.4;
 }
 .spa-shell-head {
