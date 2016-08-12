@@ -5,6 +5,11 @@
 	src: url(./font/nkmr__.ttf) format('truetype');
 }
 
+@font-face {
+	font-family: 'makinas-scrap-5';
+	src: url(./font/Makinas-Scrap-5.otf) format('opentype');
+}
+
 /* Key Frame */
 
 @keyframes FadeIn {
@@ -181,7 +186,7 @@ body {
 	top: 0;
   left: 0;
   font-size: 64px;
-  font-family: header;
+	font-family: makinas-scrap-5;
 	display: table-cell;
 	vertical-align: middle;
 }
