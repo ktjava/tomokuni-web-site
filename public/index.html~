@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-dns-prefetch-control" content="on">
+	<link rel="stylesheet" type="text/css" href="http://jaysalvat.github.io/vegas/releases/latest/vegas.min.css">
+	<link rel="stylesheet" type="text/css" href="css/shell.css">
+	<title>Tomokuni Kani - Repository</title>
+</head>
+<body>
+	<div id="spa">
+		<canvas id="spa-shell-bg_canvas" class="spa-shell-bg_canvas" width="1305" height="318"></canvas>
+		<div class="spa-shell-head">
+			<div class="spa-shell-head-name"><span class="spa-shell-head-name-span">Tomokuni Kani - Repository</span></div>
+			<div class="spa-shell-head-social"><a class="spa-shell-head-social-img" href="https://soundcloud.com/dcot000" target="_blank"><img class="spa-shell-head-social-img-height" src="img/sc_st_gradient_240x140.png"></a><a class="spa-shell-head-social-img" href="https://www.facebook.com/tomokuni.kani" target="_blank"><img class="spa-shell-head-social-img-height" src="img/FB-f-Logo__blue_29.png"></a></div>
+		</div>
+		<div id="spa-shell-main" class="spa-shell-main">
+			<div class="spa-shell-main-profile">
+				<div class="spa-shell-main-profile-header">Profile</div>
+				<div class="spa-shell-main-profile-content">中学2年次において、創造アイデアロボットコンテスト全国中学生大会に出場し、全国ベスト8に入賞した。その後、機械工学に関して専門的に学ぶために岐阜工業高等専門学校機械工学科に進学し、高専ロボコンに参加して機械加工を担当した。高専5年次の卒業研究で有限要素法による流路の形状最適化手法の改善に関して研究を行ったことが切っ掛けで、コンピュータシステム自体に興味を持ち機械工学と情報工学の融合分野を取り扱う岐阜大学人間情報システム工学科に進学した。岐阜大学では原山研究室に所属し、FreeBSDを用いて構築された実機ネットワークを用いて、IPv4とIPv6を併用したマルチパスルーティングにおける輻輳制御アルゴリズムの通信効率向上に関わる改善を行った。岐阜大学の卒業研究における論文の追加調査において、有限要素法とルーティングを融合させた手法であるポテンシャルルーティングを発見した。そして、その手法をマルチパスルーティングに拡張することで、計算量オーダーを大きく増やさずに、卒業研究の手法より遥かに多数の本数のパスを、リンク負荷に適応して設定可能なマルチパスルーティングが実現できる事に気付いた。そのため、卒業後にコンピュータ・ネットワークに強みを持つJAISTに進学し、篠田研究室に所属し、日本国内のインターネットインフラ研究・運用を牽引するWIDE PROJECTにも参加して現在に至っている。学生時代を通じて、ポピュラーから前衛まで、多種多様な音楽作品に触れてきた。そのため、モノに対する多様な見方を社会に提供し、作品に触れる者の精神を豊かにするアートに興味を持ち、自主的に調査を行っている。これからは、現実とネットの境界を曖昧にするようなWeb技術が多数登場してくると予想される。私は特に、アートとテクノロジーの境界領域において、世の中を精神的に豊かにするようなサービス開発を行いたいと考えている。<br><br><a href="https://www.facebook.com/tomokuni.kani">Facebook</a>上では本名で記事投稿中。<a href="https://soundcloud.com/dcot000" target="_blank">SoundCloud</a>上ではSpino名義で実験的な音楽を発表中。</div>
+			</div>
+			<div class="spa-shell-main-portfolio">
+				<div class="spa-shell-main-portfolio-header">Portfolio</div>
+				<div class="spa-shell-main-portfolio-content"><a href="#spa-shell-modal-mwindow01"><img class="spa-shell-main-portfolio-img" src="img/MindCommunicator_osc.png"></a><br><a href="#spa-shell-modal-mwindow02"><img class="spa-shell-main-portfolio-img" src="img/GenerativeCeramics.png"></a><br><a href="#spa-shell-modal-mwindow03"><img class="spa-shell-main-portfolio-img" src="img/css3exp.png"></a><br><a href="#spa-shell-modal-mwindow04"><img class="spa-shell-main-portfolio-img" src="img/desk.png"></a><br><a href="#spa-shell-modal-mwindow05"><img class="spa-shell-main-portfolio-img" src="img/spectrum.png"></a><br><a href="#spa-shell-modal-mwindow06"><img class="spa-shell-main-portfolio-img" src="img/ryokan.jpg"></a><br><a href="#spa-shell-modal-mwindow07"><img class="spa-shell-main-portfolio-img" src="img/SpaceInvaders.jpg"></a><br><a href="#spa-shell-modal-mwindow08"><img class="spa-shell-main-portfolio-img" src="img/winter.png"></a><br><a href="#spa-shell-modal-mwindow09"><img class="spa-shell-main-portfolio-img" src="img/village.jpg"></a></div>
+			</div>
+			<div class="spa-shell-main-logo">
+				<div class="spa-shell-main-logo-header">SNS Icons</div>
+				<div class="spa-shell-main-logo-content"><img class="spa-shell-main-portfolio-img" src="img/hello_world.png"><br><img class="spa-shell-main-portfolio-img" src="img/unix_be.jpg"></div>
+			</div>
+		</div>
+		<div class="spa-shell-foot"><span class="spa-shell-foot-span">Copyright (C) TOMOKUNI KANI. All right reserved.</span></div>
+		<div class="spa-shell-modal">
+			<div id="spa-shell-modal-mwindow01" class="spa-shell-modal-mwindow01">
+				<a href="#" class="spa-shell-modal-close_overlay">×</a>
+				<span class="spa-shell-modal-window">
+					<h2 class="spa-shell-modal-window-h2">Genarative Communicator</h2>
+					<img class="spa-shell-modal-window-img" src="img/MindCommunicator_osc.png">
+					<p class="spa-shell-modal-window-p">アプリケーション間でネットワーク越しに描画命令を送信することにより、ジェネレーティブアートの描画を同期させるテストプログラム
+						openFrameworks上で作成</p>
+						<a href="#">CLOSE</a>
+					</span>
+				</div>
+				<div id="spa-shell-modal-mwindow02" class="spa-shell-modal-mwindow02">
+					<a href="#" class="spa-shell-modal-close_overlay">×</a>
+					<span class="spa-shell-modal-window">
+						<h2 class="spa-shell-modal-window-h2">Genarative Ceramics</h2>
+						<img class="spa-shell-modal-window-img" src="img/GenerativeCeramics.png">
+						<p class="spa-shell-modal-window-p">ジェネレーティブに3Dオブジェクトを描画・変形させるテストプログラム
+							Processing上で作成</p>
+							<a href="#">CLOSE</a>
+						</span>
+					</div>
+					<div id="spa-shell-modal-mwindow03" class="spa-shell-modal-mwindow03">
+						<a href="#" class="spa-shell-modal-close_overlay">×</a>
+						<span class="spa-shell-modal-window">
+							<h2 class="spa-shell-modal-window-h2">CSS3の実験場</h2>
+							<img class="spa-shell-modal-window-img" src="img/css3exp.png">
+							<p class="spa-shell-modal-window-p">CSS3の表現能力のテスト目的で作成
+								主にモーダルウィンドウ,キーフレームアニメーション,エフェクトをテストした</p>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow04" class="spa-shell-modal-mwindow04">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">研究において作成したルーティングアルゴリズムのシミュレーションプログラム</h2>
+								<img class="spa-shell-modal-window-img" src="img/desk.png">
+								<p class="spa-shell-modal-window-p">ポテンシャルルーティングをマルチパス拡張したアルゴリズムをns-3上に実装して試験した。多数の経路を利用可能なことを確認した。</p>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow05" class="spa-shell-modal-mwindow05">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">高精度サンプルレートコンバータ</h2>
+								<img class="spa-shell-modal-window-img" src="img/spectrum.png">
+								<p class="spa-shell-modal-window-p">最大128bit float 精度,3300万tapsで窓関数生成とFFTを行い、最後に量子化ノイズのシェーピングを行うことで、音声データのサンプルレートを高精度に変換するサンプルレートコンバータ</p>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow06" class="spa-shell-modal-mwindow06">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">Ryokan</h2>
+								<img class="spa-shell-modal-window-img" src="img/ryokan.jpg">
+								<br><br><audio src="audio/Ryokan_Symphony.wav" controls></audio><br><br>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow07" class="spa-shell-modal-mwindow07">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">CHiP Canon Orchestra</h2>
+								<img class="spa-shell-modal-window-img" src="img/SpaceInvaders.jpg">
+								<br><br><audio src="audio/CHiP_Canon_Orchestra.wav" controls></audio><br><br>
+								<a href="lmms/CHiP_Canon_Orchestra.mmpz">MMPZ File</a><br><br>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow08" class="spa-shell-modal-mwindow08">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">Beyond The Snowfield (Sound Pressure & Techno + Noise Music Test)</h2>
+								<img class="spa-shell-modal-window-img" src="img/winter.png">
+								<br><br><audio src="audio/Beyond_The_Snowfield.wav" controls></audio><br><br>
+								<a href="lmms/Beyond_The_Snowfield.mmpz">MMPZ File</a><br><br>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+						<div id="spa-shell-modal-mwindow09" class="spa-shell-modal-mwindow09">
+							<a href="#" class="spa-shell-modal-close_overlay">×</a>
+							<span class="spa-shell-modal-window">
+								<h2 class="spa-shell-modal-window-h2">Evening</h2>
+								<img class="spa-shell-modal-window-img" src="img/village.jpg">
+								<br><br><audio src="audio/Evening.wav" controls></audio><br><br>
+								<a href="lmms/Evening.mmpz">MMPZ File</a><br><br>
+								<a href="#">CLOSE</a>
+							</span>
+						</div>
+					</div>
+					<div id="spa-shell-opening" class="spa-shell-opening">
+						<p class="spa-shell-opening-title">Tomokuni Kani　-　Repository</p>
+						<div id="spa-shell-opening-click" class="spa-shell-opening-click">↓</div>
+					</div>
+					<div id="spa-shell-overlay" class="spa-shell-overlay">
+						<p class="spa-shell-overlay-text">Repository</p>
+					</div>
+				</div>
+				<script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+				<script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+				<script type="application/javascript" src="http://jaysalvat.github.io/vegas/releases/latest/vegas.min.js"></script>
+				<script type="application/javascript" src="js/generative.js"></script>
+				<script type="application/javascript">
+				<!--
+				var spaShellOpening = document.getElementById("spa-shell-opening"),
+				spaShellMain = document.getElementById("spa-shell-main");
+				document.getElementById("spa-shell-opening-click").addEventListener("click", function () {
+					spaShellOpening.style.top = "-1000px";
+					spaShellOpening.style.opacity = "0";
+					spaShellMain.style.color = "#000000";
+					spaShellMain.style.opacity = "0.8";
+				});
+				if(spaShellOpening.style.top == "-1000px"){
+					spaShellOpening.parentNode.removeChild(spaShellOpening);
+				}
+				$('.spa-shell-main-profile-header').vegas({
+					timer: false,
+					preload: true,
+					overlay: true,
+					transition: 'blur',
+					transitionDuration: 5000,
+					delay: 15000,
+					animation: 'random',
+					animationDuration: 20000,
+					slides: [
+						{ src: 'img/background/Profile_ja.png' }
+					]
+				});
+				$('.spa-shell-main-portfolio-header').vegas({
+					timer: false,
+					preload: true,
+					overlay: true,
+					transition: 'blur',
+					transitionDuration: 5000,
+					delay: 15000,
+					animation: 'random',
+					animationDuration: 20000,
+					slides: [
+						{ src: 'img/background/Portfolio_ja.png' }
+					]
+				});
+				$('.spa-shell-main-logo-header').vegas({
+					timer: false,
+					preload: true,
+					overlay: true,
+					transition: 'blur',
+					transitionDuration: 5000,
+					delay: 15000,
+					animation: 'random',
+					animationDuration: 20000,
+					slides: [
+						{ src: 'img/background/sns_icon_ja.png' }
+					]
+				});
+				-->
+				</script>
+			</body>
+			</html>
