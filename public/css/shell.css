@@ -130,6 +130,13 @@ body {
 	transition: 0.8s;
   text-align:center;
 }
+
+.spa-shell-opening-img {
+  height:100%;
+	animation: FadeIn 1s ease 0.1s forwards;
+	opacity: 0;
+}
+
 .spa-shell-opening-title {
   position:fixed;
   top:50%;
