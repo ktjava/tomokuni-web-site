@@ -77,7 +77,7 @@ var project;
         var curveEndX = (p0x + p1x) / 2;
         var curveEndY = (p0y + p1y) / 2;
         // カーブは中間点を結ぶ。マウスの座標は制御点として扱う。
-        gCurve.beginStroke(createjs.Graphics.getHSL(255*window.scrollY/(document.documentElement.getBoundingClientRect().height - window.innerHeight)+((p.percent) * 60), 200, 50 + Math.random() * 10)).moveTo(curveStartX, curveStartY).curveTo(p1x, p1y, curveEndX, curveEndY).endStroke();
+        gCurve.beginStroke(createjs.Graphics.getHSL(255*window.scrollY/(document.documentElement.getBoundingClientRect().height - window.innerHeight)+((p.percent) * 60), 255, 50 + Math.random() * 10)).moveTo(curveStartX, curveStartY).curveTo(p1x, p1y, curveEndX, curveEndY).endStroke();
       }
       var contextForDisplay = this.canvasForDisplay.getContext("2d");
       var contextFadeout = this.canvasForFadeout.getContext("2d");
