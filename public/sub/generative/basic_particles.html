@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="robots" content="noarchive">
+  <meta name="author" lang="ja" content="Tomokuni Kani">
+  <meta name="copyright" lang="ja" content="Tomokuni Kani">
+  <meta name="description" lang="ja" content="Genarative Test Page">
+  <style>
+  body {
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+  }
+  #myCanvas{
+    position: fixed;
+    margin: 0;
+    padding: 0;
+  }
+  </style>
+  <title>Basic Particles</title>
+</head>
+<body>
+<canvas id="myCanvas"></canvas>
+<script type="application/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+<script type="application/javascript">
+<!--
+
+var stage, circle, line, background, nodeArray = [], prevX, prevY, noiseX, noiseY;
+
+function setup(){
+  stage = new createjs.Stage("myCanvas");
+  stage.autoClear = false;
+  prevX = stage.mouseX, prevY = stage.mouseY;
+  createjs.Ticker.timingMode = createjs.Ticker.RAF;
+  createjs.Ticker.addEventListener("tick", stage);
+  createjs.Ticker.addEventListener("tick", handleTick);
+
+  var n = new Node();
+  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
+  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
+  nodeArray.push(n);
+  line = new createjs.Shape();
+  line.graphics.setStrokeStyle(1);
+  line.graphics.beginStroke("#FFFFFF");
+  for(var i=20; i<nodeArray.length; i+=20){
+    line.graphics.moveTo (nodeArray[i].circle.x,nodeArray[i].circle.y);
+    line.graphics.lineTo (nodeArray[i-20].circle.x,nodeArray[i-20].circle.y);
+  }
+  line.graphics.closePath();
+  stage.addChild(line);
+  addBackground(innerWidth, innerHeight, 0.05);
+  handleResize();
+  window.addEventListener("resize", handleResize);
+}
+function handleTick(){
+  if(nodeArray.length > 1000){
+    nodeArray[0].free();
+    nodeArray.shift();
+  }
+  var n = new Node();
+  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
+  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
+  nodeArray.push(n);
+  for(var i = 0; i < nodeArray.length; ++i){
+    nodeArray[i].update();
+  }
+  prevX = stage.mouseX, prevY = stage.mouseY;
+}
+function handleResize() {
+  stage.canvas.width = innerWidth;
+  stage.canvas.height = innerHeight;
+  background.graphics.clear();
+  background.graphics.beginFill("Black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+}
+function addBackground(width, height, alpha) {
+	background = new createjs.Shape();
+	background.graphics.beginFill("black")
+	.drawRect(0, 0, width, height)
+	.endFill();
+	stage.addChild(background);
+	background.alpha = alpha;
+}
+
+var Node = (function () {
+  function Node() {
+    this.circle = new createjs.Shape();
+  }
+  Node.prototype.setup = function (x, y, vx, vy, color) {
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
+    this.circle.x = x;
+    this.circle.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    stage.addChild(this.circle);
+  };
+  Node.prototype.update = function () {
+    this.vx *= 0.9;
+    this.vy *= 0.9;
+    this.circle.x += this.vx;
+    this.circle.y += this.vy;
+  };
+  Node.prototype.free = function () {
+    stage.removeChild(this.circle);
+  };
+  return Node;
+})();
+
+window.addEventListener("load", setup);
+
+-->
+</script>
+</body>
+</html>

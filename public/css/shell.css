@@ -328,6 +328,24 @@ a:hover {
 .spa-shell-main-portfolio-img {
   width : 320px;
 }
+.spa-shell-main-generative-test {
+	width  : 360px;
+  margin : 5px;
+}
+.spa-shell-main-generative-test-header {
+  left   : 0;
+  right  : 0;
+  height : 50px;
+  background    : #00dd00;
+  padding: 20px;
+}
+.spa-shell-main-generative-test-content {
+  top    : 50px;
+  left   : 0;
+  right  : 0;
+  background : #dddddd;
+  padding: 20px;
+}
 .spa-shell-main-logo {
   width  : 360px;
   margin : 5px;
