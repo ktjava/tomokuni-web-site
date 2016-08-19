@@ -166,6 +166,9 @@ a:hover {
 	animation: FadeIn 1s ease 0.1s forwards;
 	opacity: 0;
 }
+.spa-shell-opening-bg_canvas {
+  position: fixed;
+}
 .spa-shell-opening-click {
   will-change: opacity;
   -webkit-transition: 0.8s;

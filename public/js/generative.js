@@ -178,4 +178,99 @@ var project;
   })();
 })(project || (project = {}));
 
+var stage, circle, line, background, nodeArray = [], prevX, prevY, noiseX, noiseY;
+
+function setup(){
+  stage = new createjs.Stage("spa-shell-opening-bg_canvas");
+  stage.autoClear = false;
+  prevX = stage.mouseX, prevY = stage.mouseY;
+  createjs.Ticker.timingMode = createjs.Ticker.RAF;
+  createjs.Ticker.addEventListener("tick", stage);
+  createjs.Ticker.addEventListener("tick", handleTick);
+
+  var n = new Node();
+  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
+  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
+  nodeArray.push(n);
+  line = new createjs.Shape();
+  line.graphics.setStrokeStyle(1);
+  line.graphics.beginStroke("#FFFFFF");
+  for(var i=20; i<nodeArray.length; i+=20){
+    line.graphics.moveTo (nodeArray[i].x,nodeArray[i].y);
+    line.graphics.lineTo (nodeArray[i-20].x,nodeArray[i-20].y);
+  }
+  line.graphics.closePath();
+  stage.addChild(line);
+  addBackground(innerWidth, innerHeight, 0.05);
+  handleResize();
+  window.addEventListener("resize", handleResize);
+}
+function handleTick(){
+  if(nodeArray.length > 100){
+    nodeArray[0].free();
+    nodeArray.shift();
+  }
+  var n = new Node();
+  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
+  var hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
+  f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
+  p  = Math.round(255 * (1.0 - (255 / 255.0))),
+  q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
+  t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
+  red, green, blue;
+  if(hi == 0) red = 255, green = t, blue = p;
+  if(hi == 1) red = q, green = 255, blue = p;
+  if(hi == 2) red = p, green = 255, blue = t;
+  if(hi == 3) red = p, green = q, blue = 255;
+  if(hi == 4) red = t, green = p, blue = 255;
+  if(hi == 5) red = 255, green = p, blue = q;
+  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+red+","+green+","+blue+",1)");
+  nodeArray.push(n);
+  for(var i = 0; i < nodeArray.length; ++i){
+    nodeArray[i].update();
+  }
+  prevX = stage.mouseX, prevY = stage.mouseY;
+}
+function handleResize() {
+  stage.canvas.width = innerWidth;
+  stage.canvas.height = innerHeight;
+  background.graphics.clear();
+  background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
+}
+function addBackground(width, height, alpha) {
+	background = new createjs.Shape();
+	background.graphics.beginFill("white")
+	.drawRect(0, 0, width, height)
+	.endFill();
+	stage.addChild(background);
+	background.alpha = alpha;
+}
+
+var Node = (function () {
+  function Node() {
+    this.circle = new createjs.Shape();
+  }
+  Node.prototype.setup = function (x, y, vx, vy, color) {
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, Math.sqrt(vx*vx+vy*vy));
+    this.circle.x = x;
+    this.circle.y = y;
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    stage.addChild(this.circle);
+  };
+  Node.prototype.update = function () {
+    this.vx *= 0.9;
+    this.vy *= 0.9;
+    this.circle.x += this.vx + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.y);
+    this.circle.y += this.vy + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.x);
+  };
+  Node.prototype.free = function () {
+    stage.removeChild(this.circle);
+  };
+  return Node;
+})();
+
+window.addEventListener("load", setup);
 //# sourceMappingURL=main.js.map

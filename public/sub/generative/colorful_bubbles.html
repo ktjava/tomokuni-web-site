@@ -12,7 +12,7 @@
   <meta name="description" lang="ja" content="Genarative Test Page">
   <style>
   body {
-    background-color: #000000;
+    background-color: #ffffff;
     margin: 0;
     padding: 0;
   }
@@ -88,11 +88,11 @@ function handleResize() {
   stage.canvas.width = innerWidth;
   stage.canvas.height = innerHeight;
   background.graphics.clear();
-  background.graphics.beginFill("Black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 function addBackground(width, height, alpha) {
 	background = new createjs.Shape();
-	background.graphics.beginFill("black")
+	background.graphics.beginFill("white")
 	.drawRect(0, 0, width, height)
 	.endFill();
 	stage.addChild(background);
