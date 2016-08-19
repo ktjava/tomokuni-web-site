@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0075)https://tomokuni-web-site.herokuapp.com/sub/generative/basic_particles.html -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
   <meta http-equiv="x-dns-prefetch-control" content="on">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-Control" content="no-cache">
@@ -22,12 +22,12 @@
     padding: 0;
   }
   </style>
-  <title>Basic Particles</title>
+  <title>Colerful Bubbles</title>
 </head>
 <body>
-<canvas id="myCanvas" width="1101" height="392"></canvas>
-<script type="application/javascript" src="./basic_particles_files/jquery-3.1.0.min.js"></script>
-<script type="application/javascript" src="./basic_particles_files/easeljs-0.8.2.min.js"></script>
+<canvas id="myCanvas"></canvas>
+<script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script type="application/javascript">
 <!--
 
@@ -49,8 +49,8 @@ function setup(){
   line.graphics.setStrokeStyle(1);
   line.graphics.beginStroke("#FFFFFF");
   for(var i=20; i<nodeArray.length; i+=20){
-    line.graphics.moveTo (nodeArray[i].circle.x,nodeArray[i].circle.y);
-    line.graphics.lineTo (nodeArray[i-20].circle.x,nodeArray[i-20].circle.y);
+    line.graphics.moveTo (nodeArray[i].x,nodeArray[i].y);
+    line.graphics.lineTo (nodeArray[i-20].x,nodeArray[i-20].y);
   }
   line.graphics.closePath();
   stage.addChild(line);
@@ -59,13 +59,25 @@ function setup(){
   window.addEventListener("resize", handleResize);
 }
 function handleTick(){
-  if(nodeArray.length > 1000){
+  if(nodeArray.length > 100){
     nodeArray[0].free();
     nodeArray.shift();
   }
   var n = new Node();
   var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
-  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
+  var hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
+  f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
+  p  = Math.round(255 * (1.0 - (255 / 255.0))),
+  q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
+  t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
+  red, green, blue;
+  if(hi == 0) red = 255, green = t, blue = p;
+  if(hi == 1) red = q, green = 255, blue = p;
+  if(hi == 2) red = p, green = 255, blue = t;
+  if(hi == 3) red = p, green = q, blue = 255;
+  if(hi == 4) red = t, green = p, blue = 255;
+  if(hi == 5) red = 255, green = p, blue = q;
+  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+red+","+green+","+blue+",1)");
   nodeArray.push(n);
   for(var i = 0; i < nodeArray.length; ++i){
     nodeArray[i].update();
@@ -92,9 +104,11 @@ var Node = (function () {
     this.circle = new createjs.Shape();
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
-    this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, Math.sqrt(vx*vx+vy*vy));
     this.circle.x = x;
     this.circle.y = y;
+    this.x = x;
+    this.y = y;
     this.vx = vx;
     this.vy = vy;
     stage.addChild(this.circle);
@@ -102,8 +116,8 @@ var Node = (function () {
   Node.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx;
-    this.circle.y += this.vy;
+    this.circle.x += this.vx + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.y);
+    this.circle.y += this.vy + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.x);
   };
   Node.prototype.free = function () {
     stage.removeChild(this.circle);
@@ -115,6 +129,5 @@ window.addEventListener("load", setup);
 
 -->
 </script>
-
-
-</body></html>
+</body>
+</html>
