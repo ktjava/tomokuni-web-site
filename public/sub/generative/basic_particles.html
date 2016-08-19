@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <!-- saved from url=(0075)https://tomokuni-web-site.herokuapp.com/sub/generative/basic_particles.html -->
-<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
   <meta http-equiv="x-dns-prefetch-control" content="on">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-Control" content="no-cache">
@@ -25,71 +26,66 @@
   <title>Basic Particles</title>
 </head>
 <body>
-<canvas id="myCanvas" width="1101" height="392"></canvas>
+<canvas id="myCanvas" width="1024" height="768"></canvas>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script type="application/javascript">
 <!--
 
-var stage, circle, line, background, nodeArray = [], prevX, prevY, noiseX, noiseY;
+var stage, circle, line, background, nodeNumber=50, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("myCanvas");
   stage.autoClear = false;
-  prevX = stage.mouseX, prevY = stage.mouseY;
+  for(var i=0; i<nodeNumber; ++i){
+    var n = new Node();
+    n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+    nodeArray.push(n);
+  }
+  background = new createjs.Shape();
+	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.alpha = 0.03;
+	stage.addChild(background);
+  handleResize();
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
   createjs.Ticker.addEventListener("tick", stage);
   createjs.Ticker.addEventListener("tick", handleTick);
-
-  var n = new Node();
-  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
-  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
-  nodeArray.push(n);
-  line = new createjs.Shape();
-  line.graphics.setStrokeStyle(1);
-  line.graphics.beginStroke("#FFFFFF");
-  for(var i=20; i<nodeArray.length; i+=20){
-    line.graphics.moveTo (nodeArray[i].circle.x,nodeArray[i].circle.y);
-    line.graphics.lineTo (nodeArray[i-20].circle.x,nodeArray[i-20].circle.y);
-  }
-  line.graphics.closePath();
-  stage.addChild(line);
-  addBackground(innerWidth, innerHeight, 0.05);
-  handleResize();
   window.addEventListener("resize", handleResize);
 }
 function handleTick(){
-  if(nodeArray.length > 1000){
-    nodeArray[0].free();
-    nodeArray.shift();
+  var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY,
+  hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
+  f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
+  p  = Math.round(255 * (1.0 - (255 / 255.0))),
+  q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
+  t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
+  red, green, blue;
+  if(hi == 0) red = 255, green = t, blue = p;
+  if(hi == 1) red = q, green = 255, blue = p;
+  if(hi == 2) red = p, green = 255, blue = t;
+  if(hi == 3) red = p, green = q, blue = 255;
+  if(hi == 4) red = t, green = p, blue = 255;
+  if(hi == 5) red = 255, green = p, blue = q;
+  nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, "rgba("+red+","+green+","+blue+",1)");
+  prevX = mouseX, prevY = mouseY;
+  if(++count >= nodeNumber){
+    count = 0;
   }
-  var n = new Node();
-  var vx = stage.mouseX - prevX, vy = stage.mouseY - prevY;
-  n.setup(stage.mouseX, stage.mouseY, vx, vy, "rgba("+255+","+255+","+255+",1)");
-  nodeArray.push(n);
-  for(var i = 0; i < nodeArray.length; ++i){
+  for(var i=0; i<nodeNumber; ++i){
     nodeArray[i].update();
   }
-  prevX = stage.mouseX, prevY = stage.mouseY;
 }
 function handleResize() {
   stage.canvas.width = innerWidth;
   stage.canvas.height = innerHeight;
   background.graphics.clear();
-  background.graphics.beginFill("Black").drawRect(0, 0, innerWidth, innerHeight).endFill();
-}
-function addBackground(width, height, alpha) {
-	background = new createjs.Shape();
-	background.graphics.beginFill("black")
-	.drawRect(0, 0, width, height)
-	.endFill();
-	stage.addChild(background);
-	background.alpha = alpha;
+  background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 
 var Node = (function () {
   function Node() {
     this.circle = new createjs.Shape();
+    stage.addChild(this.circle);
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
     this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
@@ -97,16 +93,12 @@ var Node = (function () {
     this.circle.y = y;
     this.vx = vx;
     this.vy = vy;
-    stage.addChild(this.circle);
   };
   Node.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
     this.circle.x += this.vx;
     this.circle.y += this.vy;
-  };
-  Node.prototype.free = function () {
-    stage.removeChild(this.circle);
   };
   return Node;
 })();
@@ -115,6 +107,5 @@ window.addEventListener("load", setup);
 
 -->
 </script>
-
-
-</body></html>
+</body>
+</html>
