@@ -217,15 +217,16 @@ function handleTick(){
   if(++count >= nodeNumber){
     count = 0;
   }
-  for(var i=0; i<nodeNumber; ++i){
-    nodeArray[i].update();
-  }
+  nodeArray.forEach(updateForEach);
 }
 function handleResize() {
   stage.canvas.width = innerWidth;
   stage.canvas.height = innerHeight;
   background.graphics.clear();
   background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
+}
+function updateForEach(element, index, array) {
+  element.update();
 }
 
 var Node = (function () {
