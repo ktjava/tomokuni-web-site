@@ -155,6 +155,7 @@ a:hover {
   height:100%;
 	animation: FadeIn 1s ease 0.1s forwards;
 	opacity: 0;
+	pointer-events: none;
 }
 
 .spa-shell-opening-title {
@@ -165,6 +166,7 @@ a:hover {
   margin:-1.5em 0 0 -50%;
 	animation: FadeIn 1s ease 0.1s forwards;
 	opacity: 0;
+	pointer-events: none;
 }
 .spa-shell-opening-bg_canvas {
   position: fixed;
@@ -172,6 +174,7 @@ a:hover {
   left: 0;
   width: 100%;
   height: 100%;
+	pointer-events: none;
 }
 .spa-shell-opening-click {
   will-change: opacity;
