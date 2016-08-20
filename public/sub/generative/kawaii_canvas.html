@@ -11,17 +11,84 @@
   <meta name="author" lang="ja" content="Tomokuni Kani">
   <meta name="copyright" lang="ja" content="Tomokuni Kani">
   <meta name="description" lang="ja" content="Genarative Test Page">
-  <style type="text/css">body{background-color:#000000;margin:0;padding:0;}#myCanvas{position:fixed;margin:0;padding:0;}</style>
+  <style type="text/css">
+  @font-face {
+  	font-family: 'nakamura';
+  	src: url(./font/nkmr__.ttf) format('truetype');
+  }
+  @keyframes FadeIn {
+    0% {color:#00ff00;opacity:0;}
+    100% {opacity:0.8;}
+  }
+  body{background-color:#000000;margin:0;padding:0;font-family: nakamura;}#myCanvas{position:fixed;margin:0;padding:0;}
+  #opening{
+    will-change: opacity;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed !important;
+    background: #ffffff;
+    z-index: 4;
+    -webkit-transition: 0.8s;
+  	-moz-transition: 0.8s;
+  	-o-transition: 0.8s;
+  	-ms-transition: 0.8s;
+  	transition: 0.8s;
+    text-align:center;
+  }
+  #opening-title{
+    position:fixed;
+    top:50%;
+    left:50%;
+    width:100%;
+    margin:-1.5em 0 0 -50%;
+  	animation: FadeIn 1s ease 0.1s forwards;
+  	opacity: 0;
+  	pointer-events: none;
+  }
+  #opening-click{
+    will-change: opacity;
+    -webkit-transition: 0.8s;
+  	-moz-transition: 0.8s;
+  	-o-transition: 0.8s;
+  	-ms-transition: 0.8s;
+  	transition: 0.8s;
+    left: 50%;
+    bottom: 0;
+    position: absolute;
+    z-index: 4;
+    font-size: 64px;
+    color: #ffffff;
+    background: #aaaaaa;
+  	animation: FadeIn 1s ease 0.1s forwards;
+  	opacity: 0;
+  }
+  #opening-click:hover{
+    background : #000000;
+  }
+  </style>
   <title>Kawaii Canvas</title>
 </head>
 <body>
 <canvas id="myCanvas" width="1024" height="768"></canvas>
+<div id="opening">
+  <p id="opening-title">Kawaii Canvas</p>
+  <div id="opening-click">↓<div>
+</div>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script type="application/javascript">
 <!--
+var spaShellOpening = document.getElementById("opening");
+document.getElementById("opening-click").addEventListener("click", function () {
+  spaShellOpening.style.top = "-1000px";
+  spaShellOpening.style.opacity = "0";
+});
+if(spaShellOpening.style.top == "-1000px")
+  spaShellOpening.parentNode.removeChild(spaShellOpening);
 
-var stage, circle, line, background, nodeNumber=1000, bubbleArray = [], rainArray = [], basicArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, nodeNumber=1000, randomAmp=0, bubbleArray = [], rainArray = [], basicArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("myCanvas");
@@ -29,17 +96,17 @@ function setup(){
   stage.compositeOperation = "normal";
   for(var i=0; i<nodeNumber; ++i){
     var n = new BubbleNode();
-    n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+    n.setup(0, innerHeight, 0, 0, "rgba("+255+","+255+","+255+",1)");
     bubbleArray.push(n);
   }
   for(var i=0; i<nodeNumber; ++i){
     var n = new RainNode();
-    n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+    n.setup(0, innerHeight, 0, 0, "rgba("+255+","+255+","+255+",1)");
     rainArray.push(n);
   }
   for(var i=0; i<nodeNumber; ++i){
     var n = new BasicNode();
-    n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+    n.setup(0, innerHeight, 0, 0, "rgba("+255+","+255+","+255+",1)");
     basicArray.push(n);
   }
   background = new createjs.Shape();
@@ -54,13 +121,12 @@ function setup(){
 }
 function handleTick(){
   var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY,
-  hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
   f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
   p  = Math.round(255 * (1.0 - (255 / 255.0))),
   q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
   t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
   red, green, blue;
-  switch(hi){
+  switch(Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6){
     case 0:
       red = 255, green = t, blue = p;
       break;
@@ -141,7 +207,7 @@ var RainNode = (function () {
   RainNode.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx;
+    this.circle.x += this.vx + randomAmp*(Math.random()-0.5);
     this.circle.y += this.vy + Math.random();
   };
   return RainNode;
@@ -168,6 +234,10 @@ var BasicNode = (function () {
   };
   return BasicNode;
 })();
+
+document.addEventListener("wheel" , function(e){
+  randomAmp += 0.001*e.deltaY;
+});
 
 window.addEventListener("load", setup);
 
