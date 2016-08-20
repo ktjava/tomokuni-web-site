@@ -181,7 +181,7 @@ var project;
 var stage, circle, line, background, nodeNumber=50, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
-  stage = new createjs.Stage("myCanvas");
+  stage = new createjs.Stage("spa-shell-opening-bg_canvas");
   stage.autoClear = false;
   for(var i=0; i<nodeNumber; ++i){
     var n = new Node();
@@ -189,7 +189,7 @@ function setup(){
     nodeArray.push(n);
   }
   background = new createjs.Shape();
-	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+	background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
   background.alpha = 0.03;
 	stage.addChild(background);
   handleResize();
@@ -225,7 +225,7 @@ function handleResize() {
   stage.canvas.width = innerWidth;
   stage.canvas.height = innerHeight;
   background.graphics.clear();
-  background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 
 var Node = (function () {

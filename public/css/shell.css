@@ -168,6 +168,10 @@ a:hover {
 }
 .spa-shell-opening-bg_canvas {
   position: fixed;
+	top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .spa-shell-opening-click {
   will-change: opacity;
