@@ -93,6 +93,7 @@ var Node = (function () {
     this.circle.y = y;
     this.vx = vx;
     this.vy = vy;
+    stage.setChildIndex (this.circle,nodeNumber-1);
   };
   Node.prototype.update = function () {
     this.vx *= 0.9;
