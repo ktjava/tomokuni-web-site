@@ -53,14 +53,13 @@ function setup(){
   window.addEventListener("resize", handleResize);
 }
 function handleTick(){
-  var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY,
-  hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
-  f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
+  var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
+  f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
   p  = Math.round(255 * (1.0 - (255 / 255.0))),
   q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
   t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
   red, green, blue;
-  switch(hi){
+  switch(Math.floor(255*vNorm / 60.0) % 6){
     case 0:
       red = 255, green = t, blue = p;
       break;
@@ -109,7 +108,8 @@ var BubbleNode = (function () {
     stage.addChild(this.circle);
   }
   BubbleNode.prototype.setup = function (x, y, vx, vy, color) {
-    this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.2*Math.sqrt(vx*vx+vy*vy));
+    var vNorm = Math.sqrt(vx*vx+vy*vy);
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.2*vNorm);
     this.circle.x = x;
     this.circle.y = y;
     this.vx = vx;
@@ -117,10 +117,11 @@ var BubbleNode = (function () {
     stage.setChildIndex (this.circle,nodeNumber-1);
   };
   BubbleNode.prototype.update = function () {
+    var vNorm = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.y);
-    this.circle.y += this.vy + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.x);
+    this.circle.x += this.vx + vNorm*Math.sin(0.01*this.circle.y);
+    this.circle.y += this.vy + vNorm*Math.sin(0.01*this.circle.x);
   };
   return BubbleNode;
 })();
@@ -141,7 +142,7 @@ var RainNode = (function () {
   RainNode.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx;
+    this.circle.x += this.vx + randomAmp*(Math.random()-0.5);
     this.circle.y += this.vy + Math.random();
   };
   return RainNode;

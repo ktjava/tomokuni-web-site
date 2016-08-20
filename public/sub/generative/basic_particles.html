@@ -43,14 +43,13 @@ function setup(){
   window.addEventListener("resize", handleResize);
 }
 function handleTick(){
-  var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY,
-  hi = Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0) % 6,
-  f  = (255*Math.sqrt(vx*vx+vy*vy) / 60.0) - Math.floor(255*Math.sqrt(vx*vx+vy*vy) / 60.0),
+  var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
+  f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
   p  = Math.round(255 * (1.0 - (255 / 255.0))),
   q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
   t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
   red, green, blue;
-  switch(hi){
+  switch(Math.floor(255*vNorm / 60.0) % 6){
     case 0:
       red = 255, green = t, blue = p;
       break;
