@@ -17,6 +17,17 @@
   100% {opacity:0.8;}
 }
 
+@keyframes noiseMove {
+  0% {
+		top: -100%;
+	  left: 0;
+	}
+  100% {
+		top: 100%;
+	  left: 0;
+	}
+}
+
 /* Basic Tag */
 
 body {
@@ -42,6 +53,37 @@ a:visited {
 }
 a:hover {
   color: #ff0000;
+}
+
+div#noise_broad {
+  will-change: scroll-position;
+	z-index: 26;
+	margin: 0;
+  position: fixed !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 800px;
+  background-color: rgba(0,0,0,0.08);
+	pointer-events: none;
+	filter:blur(2px);-ms-filter:blur(2px);-moz-filter:blur(2px);-webkit-filter:blur(2px);-o-filter:blur(2px);
+	animation: noiseMove 30s linear 0s infinite forwards;
+}
+div#noise_narrow {
+  will-change: scroll-position;
+	z-index: 27;
+	margin: 0;
+  position: fixed !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0,0,0,0.2);
+	pointer-events: none;
+	filter:blur(1px);-ms-filter:blur(1px);-moz-filter:blur(1px);-webkit-filter:blur(1px);-o-filter:blur(1px);
+	animation: noiseMove 15s linear 0s infinite forwards;
 }
 
 /* Modal Window */
