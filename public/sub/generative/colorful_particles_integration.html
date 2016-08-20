@@ -37,6 +37,7 @@ var stage, circle, line, background, nodeNumber=1000, bubbleArray = [], rainArra
 function setup(){
   stage = new createjs.Stage("myCanvas");
   stage.autoClear = false;
+  stage.compositeOperation = "normal";
   for(var i=0; i<nodeNumber; ++i){
     var n = new BubbleNode();
     n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
