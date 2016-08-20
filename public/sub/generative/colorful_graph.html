@@ -62,12 +62,28 @@ function handleTick(){
   q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
   t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
   red, green, blue;
-  if(hi == 0) red = 255, green = t, blue = p;
-  if(hi == 1) red = q, green = 255, blue = p;
-  if(hi == 2) red = p, green = 255, blue = t;
-  if(hi == 3) red = p, green = q, blue = 255;
-  if(hi == 4) red = t, green = p, blue = 255;
-  if(hi == 5) red = 255, green = p, blue = q;
+  switch(hi){
+    case 0:
+      red = 255, green = t, blue = p;
+      break;
+    case 1:
+      red = q, green = 255, blue = p;
+      break;
+    case 2:
+      red = p, green = 255, blue = t;
+      break;
+    case 3:
+      red = p, green = q, blue = 255;
+      break;
+    case 4:
+      red = t, green = p, blue = 255;
+      break;
+    case 5:
+      red = 255, green = p, blue = q;
+      break;
+    default:
+      break;
+  }
   nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, "rgba("+red+","+green+","+blue+",1)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
