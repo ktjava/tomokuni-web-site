@@ -250,5 +250,5 @@ var Node = (function () {
   return Node;
 })();
 
-window.addEventListener("load", setup);
+setup();
 //# sourceMappingURL=main.js.map
