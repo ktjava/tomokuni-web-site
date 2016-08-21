@@ -11,19 +11,49 @@
   <meta name="author" lang="ja" content="Tomokuni Kani">
   <meta name="copyright" lang="ja" content="Tomokuni Kani">
   <meta name="description" lang="ja" content="Genarative Test Page">
-  <style type="text/css">body{background-color:#000000;margin:0;padding:0;}#myCanvas{position:fixed;margin:0;padding:0;}</style>
+  <style type="text/css">
+  @font-face {
+  	font-family: 'nakamura';
+  	src: url(./font/nkmr__.ttf) format('truetype');
+  }
+  @keyframes FadeIn {
+    0% {color:#DC143C;opacity:0;}
+    100% {opacity:0.8;}
+  }
+  @keyframes FadeOut {
+    0% {opacity:0.8;}
+    100% {color:#DC143C;opacity:0;}
+  }
+  body{background-color:#000000;margin:0;padding:0;font-family:nakamura;}#myCanvas{position:fixed;margin:0;padding:0;}
+  #superImpose{
+  position:fixed;
+  top:50%;
+  width:100%;
+  opacity:0;
+  z-index: 3;
+  color: #FFFFFF;
+  background : #FF0000;
+}
+  </style>
   <title>Colorful Graph</title>
 </head>
 <body>
+<div id="superImpose"></div>
 <canvas id="myCanvas" width="1024" height="768"></canvas>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script type="application/javascript">
 <!--
 
-var stage, circle, line, background, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, nodeNumber=1000, randomAmp=0, handleFadeOut, fadeOutTimer, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
+  document.addEventListener("wheel" , function(e){
+    window.clearTimeout(fadeOutTimer);
+    randomAmp += 0.001*e.deltaY;
+    $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random Amp: "+randomAmp);
+    fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
+  });
   stage = new createjs.Stage("myCanvas");
   stage.autoClear = false;
   stage.compositeOperation = "normal";
@@ -44,6 +74,9 @@ function setup(){
   createjs.Ticker.addEventListener("tick", handleTick);
   window.addEventListener("resize", handleResize);
 }
+handleFadeOut = function () {
+  $('#superImpose').css('animation', 'FadeOut 1s ease 0.1s forwards');
+};
 function handleTick(){
   var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
   f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
@@ -113,8 +146,8 @@ var Node = (function () {
   Node.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx;
-    this.circle.y += this.vy;
+    this.circle.x += this.vx + randomAmp * (Math.random()-0.5);
+    this.circle.y += this.vy + randomAmp * (Math.random()-0.5);
   };
   return Node;
 })();
