@@ -109,7 +109,7 @@ var kawaiiCanvas = (function(){
   fadeOutTimer,
   stage,
   circle, line,
-  nodeNumber=1000, randomAmp=0,
+  nodeNumber=50, randomAmp=0,
   bubbleArray = [], rainArray = [], basicArray = [], linkArray = [],
   prevX=0, prevY=0, count=0;
 
@@ -158,7 +158,7 @@ var kawaiiCanvas = (function(){
   };
 
   handleTick = function(){
-    var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
+    var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = 0.5*(mouseX - prevX), vy = 0.5*(mouseY - prevY), vNorm = Math.sqrt(vx*vx+vy*vy),
     f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
     p  = Math.round(255 * (1.0 - (255 / 255.0))),
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
@@ -215,7 +215,7 @@ var kawaiiCanvas = (function(){
     }
     BubbleNode.prototype.setup = function (x, y, vx, vy, color) {
       var vNorm = Math.sqrt(vx*vx+vy*vy);
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.2*vNorm);
+      this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.1*vNorm);
       this.circle.x = x;
       this.circle.y = y;
       this.vx = vx;
