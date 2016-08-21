@@ -104,29 +104,27 @@ window.addEventListener("load",function(){
 
 var kawaiiCanvas = (function(){
 
-  var initModule, handleTick, handleResize, updateForEach,
+  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, updateForEach,
 
   fadeOutTimer,
   stage,
   circle, line,
   nodeNumber=50, randomAmp=0,
   bubbleArray = [], rainArray = [], basicArray = [], linkArray = [],
-  prevX=0, prevY=0, count=0;
+  prevX=0, prevY=0, count=0, mouseOver = false;
 
   initModule = function(id){
-    var spaShellOpening = document.getElementById("opening");
+    var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
+    myCanvas.addEventListener("dragover", handleMouseDragOver);
+    myCanvas.addEventListener("drop", handleMouseDrop);
+    myCanvas.addEventListener("mousemove", handleMouseMove);
     document.getElementById("opening-click").addEventListener("click", function () {
       spaShellOpening.style.top = "-1000px";
       spaShellOpening.style.opacity = "0";
     });
     if(spaShellOpening.style.top == "-1000px")
       spaShellOpening.parentNode.removeChild(spaShellOpening);
-    document.addEventListener("wheel" , function(e){
-      window.clearTimeout(fadeOutTimer);
-      randomAmp += 0.001*e.deltaY;
-      $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random EFFECT Amp: "+randomAmp);
-      fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
-    });
+    document.addEventListener("wheel", handleMouseWheelRotation);
     stage = new createjs.Stage(id);
     stage.autoClear = false;
     stage.compositeOperation = "normal";
@@ -163,44 +161,74 @@ var kawaiiCanvas = (function(){
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
     t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
     red, green, blue;
-    switch(Math.floor(255*vNorm / 60.0) % 6){
-      case 0:
+    if(mouseMove){
+      switch(Math.floor(255*vNorm / 60.0) % 6){
+        case 0:
         red = 255, green = t, blue = p;
         break;
-      case 1:
+        case 1:
         red = q, green = 255, blue = p;
         break;
-      case 2:
+        case 2:
         red = p, green = 255, blue = t;
         break;
-      case 3:
+        case 3:
         red = p, green = q, blue = 255;
         break;
-      case 4:
+        case 4:
         red = t, green = p, blue = 255;
         break;
-      case 5:
+        case 5:
         red = 255, green = p, blue = q;
         break;
-      default:
+        default:
         break;
+      }
+      var color = "rgba("+red+","+green+","+blue+",1)";
+      bubbleArray[count].setup(mouseX, mouseY, vx, vy, color);
+      rainArray[count].setup(mouseX, mouseY, vx, vy, color);
+      basicArray[count].setup(mouseX, mouseY, vx, vy, color);
+      if(++count >= nodeNumber){
+        count = 0;
+      }
+      prevX = mouseX, prevY = mouseY;
     }
-    var color = "rgba("+red+","+green+","+blue+",1)";
-    bubbleArray[count].setup(mouseX, mouseY, vx, vy, color);
-    rainArray[count].setup(mouseX, mouseY, vx, vy, color);
-    basicArray[count].setup(mouseX, mouseY, vx, vy, color);
-    if(++count >= nodeNumber){
-      count = 0;
-    }
+    mouseMove = false;
     bubbleArray.forEach(updateForEach);
     rainArray.forEach(updateForEach);
     basicArray.forEach(updateForEach);
-    prevX = mouseX, prevY = mouseY;
   };
 
   handleResize = function () {
     stage.canvas.width = innerWidth;
     stage.canvas.height = innerHeight;
+  };
+
+  handleMouseWheelRotation = function (e) {
+    window.clearTimeout(fadeOutTimer);
+    randomAmp += 0.001*e.deltaY;
+    $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random EFFECT Amp: "+randomAmp);
+    fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
+  };
+
+  handleMouseDragOver = function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }
+
+  handleMouseDrop = function (e) {
+    e.preventDefault();
+    var droppedFile = e.dataTransfer.files[0],
+    reader = new FileReader();
+    console.log(droppedFile.name);
+    reader.readAsDataURL(droppedFile);
+    var bitmap = new createjs.Bitmap('images/image_1.png');
+    stage.addChild(bitmap);
+  };
+
+  handleMouseMove = function (e) {
+    mouseMove = true;
   };
 
   updateForEach = function (element, index, array) {
