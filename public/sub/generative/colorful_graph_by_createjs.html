@@ -24,7 +24,7 @@
     0% {opacity:0.8;}
     100% {color:#DC143C;opacity:0;}
   }
-  body{background-color:#FFC0CB;margin:0;padding:0;font-family:nakamura;}#myCanvas{position:fixed;margin:0;padding:0;}
+  body{background-color:#000000;margin:0;padding:0;font-family:nakamura;}#myCanvas{position:fixed;margin:0;padding:0;}
   #opening{
     will-change: opacity;
     top: 0;
@@ -32,7 +32,7 @@
     width: 100%;
     height: 100%;
     position: fixed !important;
-    color: #000000;
+    color: #FFFFFF;
     background: #ffffff;
     z-index: 4;
     -webkit-transition: 0.8s;
@@ -41,7 +41,7 @@
   	-ms-transition: 0.8s;
   	transition: 0.8s;
     text-align:center;
-    background-image: url("masudas580.png");
+    background-image: url("20080407034536.png");
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -67,8 +67,8 @@
     position: absolute;
     z-index: 4;
     font-size: 64px;
-    color: #ffffff;
-    background: #FFC0CB;
+    color: #000000;
+    background: #FFFFFF;
   	animation: FadeIn 1s ease 0.1s forwards;
   	opacity: 0;
   }
@@ -81,17 +81,17 @@
     width:100%;
   	opacity:0;
     z-index: 3;
-    color: #DC143C;
-    background : #FFC0CB;
+    color: #FFFFFF;
+    background : #FF0000;
   }
   </style>
-  <title>Harajuku Kawaii Canvas by CreateJS</title>
+  <title>Colorful Graph Canvas by CreateJS</title>
 </head>
 <body>
 <canvas id="myCanvas" width="1024" height="768"></canvas>
 <div id="superImpose"></div>
 <div id="opening">
-  <p id="opening-title">Generative Canvas Series #01<br><br>Harajuku Kawaii Canvas<br><br>by<br><img src="createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でランダム効果を加える。</p>
+  <p id="opening-title">Generative Canvas Series #02<br><br>Colorful Graph Canvas<br><br>by<br><img src="createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でランダム効果を加える。</p>
   <div id="opening-click">↓<div>
 </div>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -110,7 +110,7 @@ var kawaiiCanvas = (function(){
   stage,
   circle, line,
   nodeNumber=1000, randomAmp=0,
-  bubbleArray = [], rainArray = [], basicArray = [], linkArray = [],
+  nodeArray = [],
   prevX=0, prevY=0, count=0;
 
   initModule = function(id){
@@ -127,25 +127,20 @@ var kawaiiCanvas = (function(){
       $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random Amp: "+randomAmp);
       fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
     });
-
     stage = new createjs.Stage(id);
     stage.autoClear = false;
     stage.compositeOperation = "normal";
     for(var i=0; i<nodeNumber; ++i){
-      var n = new BubbleNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
-      bubbleArray.push(n);
+      var n = new Node();
+      n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+      nodeArray.push(n);
     }
-    for(var i=0; i<nodeNumber; ++i){
-      var n = new RainNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
-      rainArray.push(n);
-    }
-    for(var i=0; i<nodeNumber; ++i){
-      var n = new BasicNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
-      basicArray.push(n);
-    }
+    line = new createjs.Shape();
+  	stage.addChildAt(line,0);
+    background = new createjs.Shape();
+  	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+    background.alpha = 0.03;
+  	stage.addChild(background);
     handleResize();
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", stage);
@@ -187,16 +182,19 @@ var kawaiiCanvas = (function(){
         break;
     }
     var color = "rgba("+red+","+green+","+blue+",1)";
-    bubbleArray[count].setup(mouseX, mouseY, vx, vy, color);
-    rainArray[count].setup(mouseX, mouseY, vx, vy, color);
-    basicArray[count].setup(mouseX, mouseY, vx, vy, color);
+    nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, color);
     prevX = mouseX, prevY = mouseY;
     if(++count >= nodeNumber){
       count = 0;
     }
-    bubbleArray.forEach(updateForEach);
-    rainArray.forEach(updateForEach);
-    basicArray.forEach(updateForEach);
+    line.graphics.clear();
+    line.graphics.beginStroke(color);
+    line.graphics.moveTo(nodeArray[0].circle.x,nodeArray[0].circle.y);
+    for(var i=1; i<nodeNumber; ++i){
+      line.graphics.lineTo(nodeArray[i].circle.x,nodeArray[i].circle.y);
+    }
+    line.graphics.closePath();
+    nodeArray.forEach(updateForEach);
   };
 
   handleResize = function () {
@@ -208,36 +206,12 @@ var kawaiiCanvas = (function(){
     element.update();
   };
 
-  var BubbleNode = (function () {
-    function BubbleNode() {
+  var Node = (function () {
+    function Node() {
       this.circle = new createjs.Shape();
       stage.addChild(this.circle);
     }
-    BubbleNode.prototype.setup = function (x, y, vx, vy, color) {
-      var vNorm = Math.sqrt(vx*vx+vy*vy);
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.2*vNorm);
-      this.circle.x = x;
-      this.circle.y = y;
-      this.vx = vx;
-      this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
-    };
-    BubbleNode.prototype.update = function () {
-      var vNorm = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
-      this.vx *= 0.9;
-      this.vy *= 0.9;
-      this.circle.x += this.vx + vNorm * Math.sin(0.01*this.circle.y) + randomAmp * (Math.random()-0.5);
-      this.circle.y += this.vy + vNorm * Math.sin(0.01*this.circle.x) + randomAmp * (Math.random()-0.5);
-    };
-    return BubbleNode;
-  })();
-
-  var RainNode = (function () {
-    function RainNode() {
-      this.circle = new createjs.Shape();
-      stage.addChild(this.circle);
-    }
-    RainNode.prototype.setup = function (x, y, vx, vy, color) {
+    Node.prototype.setup = function (x, y, vx, vy, color) {
       this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
       this.circle.x = x;
       this.circle.y = y;
@@ -245,35 +219,13 @@ var kawaiiCanvas = (function(){
       this.vy = vy;
       stage.setChildIndex (this.circle,nodeNumber-1);
     };
-    RainNode.prototype.update = function () {
-      this.vx *= 0.9;
-      this.vy *= 0.9;
-      this.circle.x += this.vx + randomAmp * (Math.random()-0.5);
-      this.circle.y += this.vy + Math.random();
-    };
-    return RainNode;
-  })();
-
-  var BasicNode = (function () {
-    function BasicNode() {
-      this.circle = new createjs.Shape();
-      stage.addChild(this.circle);
-    }
-    BasicNode.prototype.setup = function (x, y, vx, vy, color) {
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
-      this.circle.x = x;
-      this.circle.y = y;
-      this.vx = vx;
-      this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
-    };
-    BasicNode.prototype.update = function () {
+    Node.prototype.update = function () {
       this.vx *= 0.9;
       this.vy *= 0.9;
       this.circle.x += this.vx + randomAmp * (Math.random()-0.5);
       this.circle.y += this.vy + randomAmp * (Math.random()-0.5);
     };
-    return BasicNode;
+    return Node;
   })();
 
   return { initModule : initModule };
