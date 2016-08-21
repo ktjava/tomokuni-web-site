@@ -190,13 +190,13 @@ var kawaiiCanvas = (function(){
     bubbleArray[count].setup(mouseX, mouseY, vx, vy, color);
     rainArray[count].setup(mouseX, mouseY, vx, vy, color);
     basicArray[count].setup(mouseX, mouseY, vx, vy, color);
-    prevX = mouseX, prevY = mouseY;
     if(++count >= nodeNumber){
       count = 0;
     }
     bubbleArray.forEach(updateForEach);
     rainArray.forEach(updateForEach);
     basicArray.forEach(updateForEach);
+    prevX = mouseX, prevY = mouseY;
   };
 
   handleResize = function () {
@@ -220,14 +220,14 @@ var kawaiiCanvas = (function(){
       this.circle.y = y;
       this.vx = vx;
       this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
+      stage.setChildIndex (this.circle,nodeNumber);
     };
     BubbleNode.prototype.update = function () {
       var vNorm = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + vNorm * Math.sin(0.01*this.circle.y) + randomAmp * (Math.random()-0.5);
-      this.circle.y += this.vy + vNorm * Math.sin(0.01*this.circle.x) + randomAmp * (Math.random()-0.5);
+      this.circle.x += this.vx + vNorm * Math.sin(0.01*this.circle.y+randomAmp *this.vx) + randomAmp * (Math.random()-0.5);
+      this.circle.y += this.vy + vNorm * Math.sin(0.01*this.circle.x+randomAmp *this.vy) + randomAmp * (Math.random()-0.5);
     };
     return BubbleNode;
   })();
@@ -243,7 +243,7 @@ var kawaiiCanvas = (function(){
       this.circle.y = y;
       this.vx = vx;
       this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
+      stage.setChildIndex (this.circle,nodeNumber);
     };
     RainNode.prototype.update = function () {
       this.vx *= 0.9;
@@ -265,7 +265,7 @@ var kawaiiCanvas = (function(){
       this.circle.y = y;
       this.vx = vx;
       this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
+      stage.setChildIndex (this.circle,nodeNumber);
     };
     BasicNode.prototype.update = function () {
       this.vx *= 0.9;
