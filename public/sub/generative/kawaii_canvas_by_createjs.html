@@ -124,7 +124,7 @@ var kawaiiCanvas = (function(){
     document.addEventListener("wheel" , function(e){
       window.clearTimeout(fadeOutTimer);
       randomAmp += 0.001*e.deltaY;
-      $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random Amp: "+randomAmp);
+      $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random EFFECT Amp: "+randomAmp);
       fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
     });
 
