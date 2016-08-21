@@ -200,6 +200,8 @@ var kawaiiCanvas = (function(){
   handleResize = function () {
     stage.canvas.width = innerWidth;
     stage.canvas.height = innerHeight;
+    background.graphics.clear();
+    background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
   };
 
   updateForEach = function (element, index, array) {
