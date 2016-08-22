@@ -144,10 +144,10 @@ var kawaiiCanvas = (function(){
       basicArray.push(n);
     }
     handleResize();
+    window.addEventListener("resize", handleResize);
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", stage);
     createjs.Ticker.addEventListener("tick", handleTick);
-    window.addEventListener("resize", handleResize);
   };
 
   handleFadeOut = function () {
