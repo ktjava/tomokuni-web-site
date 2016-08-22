@@ -122,8 +122,7 @@ var kawaiiCanvas = (function(){
       spaShellOpening.style.top = "-1000px";
       spaShellOpening.style.opacity = "0";
     });
-    if(spaShellOpening.style.top == "-1000px")
-      spaShellOpening.parentNode.removeChild(spaShellOpening);
+    if(spaShellOpening.style.top == "-1000px") spaShellOpening.parentNode.removeChild(spaShellOpening);
     document.addEventListener("wheel", handleMouseWheelRotation);
     stage = new createjs.Stage(id);
     stage.autoClear = false;
@@ -215,7 +214,7 @@ var kawaiiCanvas = (function(){
     e.stopPropagation();
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
-  }
+  };
 
   handleMouseDrop = function (e) {
     e.preventDefault();
