@@ -99,17 +99,17 @@
 <script type="application/javascript">
 <!--
 window.addEventListener("load",function(){
-  kawaiiCanvas.initModule("myCanvas");
+  colorfulGraphCanvas.initModule("myCanvas");
 });
 
-var kawaiiCanvas = (function(){
+var colorfulGraphCanvas = (function(){
 
   var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, updateForEach,
 
   fadeOutTimer,
   stage,
   circle, line, background,
-  nodeNumber=1000, brushThickness=0,
+  nodeNumber=1000, brushThickness=-3,
   nodeArray = [],
   prevX=0, prevY=0, count=0, mouseMove = false;
 
@@ -190,9 +190,9 @@ var kawaiiCanvas = (function(){
     mouseMove = false;
     line.graphics.clear();
     line.graphics.beginStroke(color);
-    line.graphics.moveTo(nodeArray[0].circle.x,nodeArray[0].circle.y);
+    line.graphics.moveTo(nodeArray[0].arc.x,nodeArray[0].arc.y);
     for(var i=1; i<nodeNumber; ++i){
-      line.graphics.lineTo(nodeArray[i].circle.x,nodeArray[i].circle.y);
+      line.graphics.lineTo(nodeArray[i].arc.x,nodeArray[i].arc.y);
     }
     line.graphics.closePath();
     nodeArray.forEach(updateForEach);
@@ -238,22 +238,22 @@ var kawaiiCanvas = (function(){
 
   var Node = (function () {
     function Node() {
-      this.circle = new createjs.Shape();
-      stage.addChild(this.circle);
+      this.arc = new createjs.Shape();
+      stage.addChild(this.arc);
     }
     Node.prototype.setup = function (x, y, vx, vy, color) {
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
-      this.circle.x = x;
-      this.circle.y = y;
+      this.arc.graphics.beginStroke(color).beginFill(null).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), 0, 2*Math.PI, false);
+      this.arc.x = x;
+      this.arc.y = y;
       this.vx = vx;
       this.vy = vy;
-      stage.setChildIndex (this.circle,nodeNumber-1);
+      stage.setChildIndex (this.arc,nodeNumber);
     };
     Node.prototype.update = function () {
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + brushThickness * (Math.random()-0.5);
-      this.circle.y += this.vy + brushThickness * (Math.random()-0.5);
+      this.arc.x += this.vx + brushThickness * (Math.random()-0.5);
+      this.arc.y += this.vy + brushThickness * (Math.random()-0.5);
     };
     return Node;
   })();
