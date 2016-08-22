@@ -104,44 +104,42 @@ window.addEventListener("load",function(){
 
 var kawaiiCanvas = (function(){
 
-  var initModule, handleTick, handleResize, updateForEach,
+  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, updateForEach,
 
   fadeOutTimer,
   stage,
-  circle, line,
-  nodeNumber=1000, randomAmp=0,
+  circle, line, background,
+  nodeNumber=1000, brushThickness=0,
   nodeArray = [],
-  prevX=0, prevY=0, count=0;
+  prevX=0, prevY=0, count=0, mouseMove = false;
 
   initModule = function(id){
-    var spaShellOpening = document.getElementById("opening");
+    var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
+    myCanvas.addEventListener("dragover", handleMouseDragOver);
+    myCanvas.addEventListener("drop", handleMouseDrop);
+    myCanvas.addEventListener("mousemove", handleMouseMove);
     document.getElementById("opening-click").addEventListener("click", function () {
       spaShellOpening.style.top = "-1000px";
       spaShellOpening.style.opacity = "0";
     });
-    if(spaShellOpening.style.top == "-1000px")
-      spaShellOpening.parentNode.removeChild(spaShellOpening);
-    document.addEventListener("wheel" , function(e){
-      window.clearTimeout(fadeOutTimer);
-      randomAmp += 0.001*e.deltaY;
-      $('#superImpose').css('animation', '').css('opacity', '0.8').text("Random Amp: "+randomAmp);
-      fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
-    });
+    if(spaShellOpening.style.top == "-1000px") spaShellOpening.parentNode.removeChild(spaShellOpening);
+    document.addEventListener("wheel", handleMouseWheelRotation);
     stage = new createjs.Stage(id);
     stage.autoClear = false;
     stage.compositeOperation = "normal";
     for(var i=0; i<nodeNumber; ++i){
       var n = new Node();
-      n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
       nodeArray.push(n);
     }
     line = new createjs.Shape();
-  	stage.addChildAt(line,0);
+    stage.addChildAt(line,1);
     background = new createjs.Shape();
-  	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+    background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
     background.alpha = 0.03;
-  	stage.addChild(background);
+    stage.addChildAt(background);
     handleResize();
+    window.addEventListener("resize", handleResize);
     createjs.Ticker.timingMode = createjs.Ticker.RAF;
     createjs.Ticker.addEventListener("tick", stage);
     createjs.Ticker.addEventListener("tick", handleTick);
@@ -161,32 +159,35 @@ var kawaiiCanvas = (function(){
     red, green, blue;
     switch(Math.floor(255*vNorm / 60.0) % 6){
       case 0:
-        red = 255, green = t, blue = p;
-        break;
+      red = 255, green = t, blue = p;
+      break;
       case 1:
-        red = q, green = 255, blue = p;
-        break;
+      red = q, green = 255, blue = p;
+      break;
       case 2:
-        red = p, green = 255, blue = t;
-        break;
+      red = p, green = 255, blue = t;
+      break;
       case 3:
-        red = p, green = q, blue = 255;
-        break;
+      red = p, green = q, blue = 255;
+      break;
       case 4:
-        red = t, green = p, blue = 255;
-        break;
+      red = t, green = p, blue = 255;
+      break;
       case 5:
-        red = 255, green = p, blue = q;
-        break;
+      red = 255, green = p, blue = q;
+      break;
       default:
-        break;
+      break;
     }
     var color = "rgba("+red+","+green+","+blue+",1)";
-    nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, color);
-    prevX = mouseX, prevY = mouseY;
-    if(++count >= nodeNumber){
-      count = 0;
+    if(mouseMove){
+      nodeArray[count].setup(mouseX, mouseY, vx, vy, color);
+      if(++count >= nodeNumber){
+        count = 0;
+      }
+      prevX = mouseX, prevY = mouseY;
     }
+    mouseMove = false;
     line.graphics.clear();
     line.graphics.beginStroke(color);
     line.graphics.moveTo(nodeArray[0].circle.x,nodeArray[0].circle.y);
@@ -202,6 +203,33 @@ var kawaiiCanvas = (function(){
     stage.canvas.height = innerHeight;
     background.graphics.clear();
     background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  };
+
+  handleMouseWheelRotation = function (e) {
+    window.clearTimeout(fadeOutTimer);
+    brushThickness += 0.001*e.deltaY;
+    $('#superImpose').css('animation', '').css('opacity', '0.8').text("Brush Thickness: "+Math.abs(brushThickness));
+    fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
+  };
+
+  handleMouseDragOver = function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+  }
+
+  handleMouseDrop = function (e) {
+    e.preventDefault();
+    var droppedFile = e.dataTransfer.files[0],
+    reader = new FileReader();
+    console.log(droppedFile.name);
+    reader.readAsDataURL(droppedFile);
+    var bitmap = new createjs.Bitmap('images/image_1.png');
+    stage.addChild(bitmap);
+  };
+
+  handleMouseMove = function (e) {
+    mouseMove = true;
   };
 
   updateForEach = function (element, index, array) {
@@ -224,8 +252,8 @@ var kawaiiCanvas = (function(){
     Node.prototype.update = function () {
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + randomAmp * (Math.random()-0.5);
-      this.circle.y += this.vy + randomAmp * (Math.random()-0.5);
+      this.circle.x += this.vx + brushThickness * (Math.random()-0.5);
+      this.circle.y += this.vy + brushThickness * (Math.random()-0.5);
     };
     return Node;
   })();
