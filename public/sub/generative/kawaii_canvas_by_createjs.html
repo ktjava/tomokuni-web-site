@@ -241,7 +241,7 @@ var harajukuKawaiiCanvas = (function(){
     }
     BubbleNode.prototype.setup = function (x, y, vx, vy, color) {
       this.circle.graphics.clear();
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+      this.circle.graphics.setStrokeStyle(0).beginFill(color).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
       this.circle.x = x;
       this.circle.y = y;
       this.vx = vx;
@@ -264,7 +264,8 @@ var harajukuKawaiiCanvas = (function(){
       stage.addChild(this.circle);
     }
     RainNode.prototype.setup = function (x, y, vx, vy, color) {
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
+      this.circle.graphics.clear();
+      this.circle.graphics.setStrokeStyle(0).beginFill(color).drawCircle(0, 0, 1);
       this.circle.x = x;
       this.circle.y = y;
       this.vx = vx;
@@ -286,7 +287,8 @@ var harajukuKawaiiCanvas = (function(){
       stage.addChild(this.circle);
     }
     BasicNode.prototype.setup = function (x, y, vx, vy, color) {
-      this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
+      this.circle.graphics.clear();
+      this.circle.graphics.setStrokeStyle(0).beginFill(color).drawCircle(0, 0, 1);
       this.circle.x = x;
       this.circle.y = y;
       this.vx = vx;

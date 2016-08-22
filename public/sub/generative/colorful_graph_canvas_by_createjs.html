@@ -156,7 +156,7 @@ var colorfulGraphCanvas = (function(){
     p  = Math.round(255 * (1.0 - (255 / 255.0))),
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
     t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
-    red, green, blue;
+    red, green, blue, color = "gray";
     switch(Math.floor(255*vNorm / 60.0) % 6){
       case 0:
       red = 255, green = t, blue = p;
@@ -179,8 +179,8 @@ var colorfulGraphCanvas = (function(){
       default:
       break;
     }
-    var color = "rgba("+red+","+green+","+blue+",1)";
     if(mouseMove){
+      color = "rgba("+red+","+green+","+blue+",1)";
       nodeArray[count].setup(mouseX, mouseY, vx, vy, color);
       if(++count >= nodeNumber){
         count = 0;
