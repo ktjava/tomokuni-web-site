@@ -156,7 +156,7 @@ var colorfulGraphCanvas = (function(){
     p  = Math.round(255 * (1.0 - (255 / 255.0))),
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
     t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
-    red, green, blue, color = "gray";
+    red, green, blue, color="rgba("+255+",0,0,1)";
     switch(Math.floor(255*vNorm / 60.0) % 6){
       case 0:
       red = 255, green = t, blue = p;
@@ -240,11 +240,16 @@ var colorfulGraphCanvas = (function(){
     function Node() {
       this.arc = new createjs.Shape();
       stage.addChild(this.arc);
+      this.rect = new createjs.Shape();
+      stage.addChild(this.rect);
     }
     Node.prototype.setup = function (x, y, vx, vy, color) {
       this.arc.graphics.beginStroke(color).beginFill(null).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), 0, 2*Math.PI, false);
       this.arc.x = x;
       this.arc.y = y;
+      this.rect.graphics.beginStroke(color).beginFill(null).drawRect(-5, -5, 10, 10);
+      this.rect.x = this.arc.x + (Math.random()-0.5);
+      this.rect.y = this.arc.y + (Math.random()-0.5);
       this.vx = vx;
       this.vy = vy;
       stage.setChildIndex (this.arc,nodeNumber);
@@ -254,6 +259,8 @@ var colorfulGraphCanvas = (function(){
       this.vy *= 0.9;
       this.arc.x += this.vx + brushThickness * (Math.random()-0.5);
       this.arc.y += this.vy + brushThickness * (Math.random()-0.5);
+      this.rect.x += this.vx + (1+this.vx)*brushThickness * (Math.random()-0.5);
+      this.rect.y += this.vy + (1+this.vy)*brushThickness * (Math.random()-0.5);
     };
     return Node;
   })();
