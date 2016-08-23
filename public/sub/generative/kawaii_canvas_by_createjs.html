@@ -92,7 +92,7 @@
 <canvas id="myCanvas" width="0" height="0"></canvas>
 <div id="superImpose"></div>
 <div id="opening">
-  <p id="opening-title">Generative Canvas Series #01<br><br>Harajuku Kawaii Canvas<br><br>by<br><img src="img/createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でブラシの太さを変える。</p>
+  <p id="opening-title">Generative Canvas Series #01<br><br>Harajuku Kawaii Canvas (WIP Version)<br><br>by<br><img src="img/createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でブラシの太さを変える。</p>
   <div id="opening-click">↓<div>
 </div>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -104,7 +104,7 @@ window.addEventListener("load",function(){
 });
 
 var harajukuKawaiiCanvas = (function(){
-
+  'use strict';
   var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, handleMouseDown, handleMouseUp, updateForEach,
 
   fadeOutTimer,
@@ -297,16 +297,16 @@ var harajukuKawaiiCanvas = (function(){
         this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRect(-0.5*particleSize, -0.5*particleSize, particleSize, particleSize);
         break;
         case 3:
-        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar (0,0,0.5*particleSize,10,10,Math.PI/6);
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar(0,0,0.5*particleSize,10,10,Math.PI/6);
         break;
         case 4:
-        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRect (-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, 2*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRect(-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, 2*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
         break;
         case 5:
-        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRectComplex (-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRectComplex(-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
         break;
         case 6:
-        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawEllipse (0, 0, 4*Math.log(vx+1), 4*Math.log(vy+1));
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawEllipse(0, 0, 4*Math.log(vx+1), 4*Math.log(vy+1));
         break;
         default:
         break;
