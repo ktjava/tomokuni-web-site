@@ -88,7 +88,7 @@
   <title>Colorful Graph Canvas by CreateJS</title>
 </head>
 <body>
-<canvas id="myCanvas" width="1024" height="768"></canvas>
+<canvas id="myCanvas" width="0" height="0"></canvas>
 <div id="superImpose"></div>
 <div id="opening">
   <p id="opening-title">Generative Canvas Series #02<br><br>Colorful Graph Canvas<br><br>by<br><img src="img/createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でブラシの太さを変える。</p>
@@ -104,20 +104,21 @@ window.addEventListener("load",function(){
 
 var colorfulGraphCanvas = (function(){
 
-  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, updateForEach,
+  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, handleMouseDown, handleMouseUp, updateForEach,
 
   fadeOutTimer,
   stage,
   circle, line, background,
   nodeNumber=1000, brushThickness=-3,
   nodeArray = [],
-  prevX=0, prevY=0, count=0, mouseMove = false;
+  prevX=0, prevY=0, count=0, paint = false;
 
   initModule = function(id){
     var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
     myCanvas.addEventListener("dragover", handleMouseDragOver);
     myCanvas.addEventListener("drop", handleMouseDrop);
-    myCanvas.addEventListener("mousemove", handleMouseMove);
+    myCanvas.addEventListener("mousedown", handleMouseDown);
+    myCanvas.addEventListener("mouseup", handleMouseUp);
     document.getElementById("opening-click").addEventListener("click", function () {
       spaShellOpening.style.top = "-1000px";
       spaShellOpening.style.opacity = "0";
@@ -151,12 +152,12 @@ var colorfulGraphCanvas = (function(){
   };
 
   handleTick = function(){
-    var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
+    var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.log(Math.sqrt(vx*vx+vy*vy)+1),
     f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
     p  = Math.round(255 * (1.0 - (255 / 255.0))),
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
     t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
-    red, green, blue, color="rgba("+255+",0,0,1)";
+    red, green, blue, color="rgba(255,0,0,1)";
     switch(Math.floor(255*vNorm / 60.0) % 6){
       case 0:
       red = 255, green = t, blue = p;
@@ -179,7 +180,7 @@ var colorfulGraphCanvas = (function(){
       default:
       break;
     }
-    if(mouseMove){
+    if(paint){
       color = "rgba("+red+","+green+","+blue+",1)";
       nodeArray[count].setup(mouseX, mouseY, vx, vy, color);
       if(++count >= nodeNumber){
@@ -228,8 +229,12 @@ var colorfulGraphCanvas = (function(){
     stage.addChild(bitmap);
   };
 
-  handleMouseMove = function (e) {
-    mouseMove = true;
+  handleMouseDown = function (e) {
+    paint = true;
+  };
+
+  handleMouseUp = function (e) {
+    paint = false;
   };
 
   updateForEach = function (element, index, array) {
@@ -244,7 +249,7 @@ var colorfulGraphCanvas = (function(){
       stage.addChild(this.rect);
     }
     Node.prototype.setup = function (x, y, vx, vy, color) {
-      this.arc.graphics.beginStroke(color).beginFill(null).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), 0, 2*Math.PI, false);
+      this.arc.graphics.beginStroke(color).beginFill(null).drawCircle(0, 0, Math.abs(brushThickness) * Math.log(Math.sqrt(vx*vx+vy*vy)+1), 0, 2 * Math.PI, false);
       this.arc.x = x;
       this.arc.y = y;
       this.rect.graphics.beginStroke(color).beginFill(null).drawRect(-5, -5, 10, 10);
@@ -259,8 +264,8 @@ var colorfulGraphCanvas = (function(){
       this.vy *= 0.9;
       this.arc.x += this.vx + brushThickness * (Math.random()-0.5);
       this.arc.y += this.vy + brushThickness * (Math.random()-0.5);
-      this.rect.x += this.vx + (1+this.vx)*brushThickness * (Math.random()-0.5);
-      this.rect.y += this.vy + (1+this.vy)*brushThickness * (Math.random()-0.5);
+      this.rect.x += this.vx + (1+this.vx) * brushThickness * (Math.random()-0.5);
+      this.rect.y += this.vy + (1+this.vy) * brushThickness * (Math.random()-0.5);
     };
     return Node;
   })();

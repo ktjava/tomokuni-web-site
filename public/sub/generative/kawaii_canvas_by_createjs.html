@@ -83,12 +83,13 @@
     z-index: 3;
     color: #DC143C;
     background : #FFC0CB;
+    pointer-events: none;
   }
   </style>
   <title>Harajuku Kawaii Canvas by CreateJS</title>
 </head>
 <body>
-<canvas id="myCanvas" width="1024" height="768"></canvas>
+<canvas id="myCanvas" width="0" height="0"></canvas>
 <div id="superImpose"></div>
 <div id="opening">
   <p id="opening-title">Generative Canvas Series #01<br><br>Harajuku Kawaii Canvas<br><br>by<br><img src="img/createjs-logo.png" height="50px"><br><br>操作説明: マウスカーソル移動でブラシ描画を行う。マウスホイール回転でブラシの太さを変える。</p>
@@ -104,20 +105,61 @@ window.addEventListener("load",function(){
 
 var harajukuKawaiiCanvas = (function(){
 
-  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, updateForEach,
+  var initModule, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, handleMouseDown, handleMouseUp, updateForEach,
 
   fadeOutTimer,
   stage,
   circle, line,
   nodeNumber=500, brushThickness=0.002,
   bubbleArray = [], rainArray = [], basicArray = [], linkArray = [],
-  prevX=0, prevY=0, count=0, mouseMove = false;
+  prevX=0, prevY=0, count=0, paint = false, drawShapeType = 1, applyRainEffect = true, applyRandomEffect = true;
 
   initModule = function(id){
     var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
     myCanvas.addEventListener("dragover", handleMouseDragOver);
     myCanvas.addEventListener("drop", handleMouseDrop);
-    myCanvas.addEventListener("mousemove", handleMouseMove);
+    myCanvas.addEventListener("mousedown", handleMouseDown);
+    myCanvas.addEventListener("mouseup", handleMouseUp);
+    document.onkeydown = function (e) {
+        switch(e.keyCode){
+          case 49:
+          drawShapeType = 1;
+          break;
+          case 50:
+          drawShapeType = 2;
+          break;
+          case 51:
+          drawShapeType = 3;
+          break;
+          case 52:
+          drawShapeType = 4;
+          break;
+          case 53:
+          drawShapeType = 5;
+          break;
+          case 54:
+          drawShapeType = 6;
+          break;
+          case 54:
+          drawShapeType = 6;
+          break;
+          case 16:
+          applyRainEffect ^= true;
+          window.clearTimeout(fadeOutTimer);
+          $('#superImpose').css('animation', '').css('opacity', '0.8').text("Apply Rain Effect: "+Math.abs(applyRainEffect));
+          fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
+          break;
+          case 32:
+          applyRandomEffect ^= true;
+          window.clearTimeout(fadeOutTimer);
+          $('#superImpose').css('animation', '').css('opacity', '0.8').text("Apply Random Effect: "+Math.abs(applyRandomEffect));
+          fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
+          break;
+          default:
+          window.alert('Tips: 選択可能なパーティクルの形状は、1:丸, 2:四角, 3:星, 4:角丸四角, 5:複雑な角丸四角, 6:楕円 です。キーボード上端の数字キーで選択して下さい。');
+          break;
+        }
+    };
     document.getElementById("opening-click").addEventListener("click", function () {
       spaShellOpening.style.top = "-1000px";
       spaShellOpening.style.opacity = "0";
@@ -160,7 +202,7 @@ var harajukuKawaiiCanvas = (function(){
     q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
     t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
     red, green, blue;
-    if(mouseMove){
+    if(paint){
       switch(Math.floor(255*vNorm / 60.0) % 6){
         case 0:
         red = 255, green = t, blue = p;
@@ -230,6 +272,14 @@ var harajukuKawaiiCanvas = (function(){
     mouseMove = true;
   };
 
+  handleMouseDown = function (e) {
+    paint = true;
+  };
+
+  handleMouseUp = function (e) {
+    paint = false;
+  };
+
   updateForEach = function (element, index, array) {
     element.update();
   };
@@ -241,7 +291,29 @@ var harajukuKawaiiCanvas = (function(){
     }
     BubbleNode.prototype.setup = function (x, y, vx, vy, color) {
       this.circle.graphics.clear();
-      this.circle.graphics.setStrokeStyle(0).beginFill(color).drawCircle(0, 0, Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+      var particleSize = Math.abs(brushThickness)*Math.log(Math.sqrt(vx*vx+vy*vy)+1);
+      switch(drawShapeType){
+        case 1:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawCircle(0, 0, particleSize);
+        break;
+        case 2:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRect(-0.5*particleSize, -0.5*particleSize, particleSize, particleSize);
+        break;
+        case 3:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar (0,0,0.5*particleSize,10,10,Math.PI/6);
+        break;
+        case 4:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRect (-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, 2*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+        break;
+        case 5:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawRoundRectComplex (-0.5*particleSize, -0.5*particleSize, particleSize, particleSize, Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vy+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1), Math.log(vx+1)*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
+        break;
+        case 6:
+        this.circle.graphics.setStrokeStyle(0).beginFill(color).drawEllipse (0, 0, 4*Math.log(vx+1), 4*Math.log(vy+1));
+        break;
+        default:
+        break;
+      }
       this.circle.x = x;
       this.circle.y = y;
       this.vx = vx;
@@ -249,11 +321,11 @@ var harajukuKawaiiCanvas = (function(){
       stage.setChildIndex (this.circle,nodeNumber);
     };
     BubbleNode.prototype.update = function () {
-      var vNorm = Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+      var vNorm = Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1);
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + vNorm * Math.sin(0.01*this.circle.y+brushThickness *this.vx) + brushThickness * (Math.random()-0.5);
-      this.circle.y += this.vy + vNorm * Math.sin(0.01*this.circle.x+brushThickness *this.vy) + brushThickness * (Math.random()-0.5);
+      this.circle.x += this.vx + vNorm * Math.sin(0.01*this.circle.y+brushThickness *this.vx) + applyRandomEffect * brushThickness * (Math.random()-0.5);
+      this.circle.y += this.vy + vNorm * Math.sin(0.01*this.circle.x+brushThickness *this.vy) + applyRandomEffect * brushThickness * (Math.random()-0.5);
     };
     return BubbleNode;
   })();
@@ -275,8 +347,8 @@ var harajukuKawaiiCanvas = (function(){
     RainNode.prototype.update = function () {
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + brushThickness * (Math.random()-0.5);
-      this.circle.y += this.vy + Math.random();
+      this.circle.x += this.vx + applyRandomEffect * brushThickness * (Math.random()-0.5);
+      this.circle.y += this.vy + applyRainEffect * Math.random();
     };
     return RainNode;
   })();
@@ -298,8 +370,8 @@ var harajukuKawaiiCanvas = (function(){
     BasicNode.prototype.update = function () {
       this.vx *= 0.9;
       this.vy *= 0.9;
-      this.circle.x += this.vx + brushThickness * (Math.random()-0.5);
-      this.circle.y += this.vy + brushThickness * (Math.random()-0.5);
+      this.circle.x += this.vx + applyRandomEffect * brushThickness * (Math.random()-0.5);
+      this.circle.y += this.vy + applyRandomEffect * brushThickness * (Math.random()-0.5);
     };
     return BasicNode;
   })();
