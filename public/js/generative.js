@@ -178,7 +178,7 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, nodeNumber=50, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, nodeNumber=5, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
@@ -249,20 +249,27 @@ var Node = (function () {
   function Node() {
     this.circle = new createjs.Shape();
     stage.addChild(this.circle);
+    this.polystar = new createjs.Shape();
+    stage.addChild(this.polystar);
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
-    this.circle.graphics.beginFill(color).drawCircle(0, 0, 0.2*Math.sqrt(vx*vx+vy*vy));
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, 5*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
     this.circle.x = x;
     this.circle.y = y;
+    this.polystar.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar(0,0,Math.log(Math.sqrt(vx*vx+vy*vy)+1),10,10,Math.PI/6);
+    this.polystar.x = x;
+    this.polystar.y = y;
     this.vx = vx;
     this.vy = vy;
-    stage.setChildIndex (this.circle,nodeNumber-1);
+    stage.setChildIndex (this.circle,nodeNumber);
   };
   Node.prototype.update = function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
-    this.circle.x += this.vx + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.y);
-    this.circle.y += this.vy + Math.sqrt(this.vx*this.vx+this.vy*this.vy)*Math.sin(0.01*this.circle.x);
+    this.circle.x += this.vx + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.sin(0.01*this.circle.y);
+    this.circle.y += this.vy + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.cos(0.01*this.circle.x);
+    this.polystar.x += this.vx + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.sin(0.01*this.circle.y) + 50 * (Math.random() - 0.5);
+    this.polystar.y += this.vy + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.cos(0.01*this.circle.x) + 50 * (Math.random() - 0.5);
   };
   return Node;
 })();

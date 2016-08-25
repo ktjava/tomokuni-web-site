@@ -104,7 +104,7 @@ window.addEventListener("load",function(){
 });
 
 var harajukuKawaiiCanvas = (function(){
-
+  "use strict";
   var initModule, handleFadeOut, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, handleMouseDown, handleMouseUp, updateForEach,
 
   fadeOutTimer,
@@ -231,7 +231,7 @@ var harajukuKawaiiCanvas = (function(){
       }
       prevX = mouseX, prevY = mouseY;
     }
-    mouseMove = false;
+    paint = false;
     bubbleArray.forEach(updateForEach);
     rainArray.forEach(updateForEach);
     basicArray.forEach(updateForEach);
@@ -371,7 +371,6 @@ var harajukuKawaiiCanvas = (function(){
 
   return { initModule : initModule };
 })();
-
 -->
 </script>
 </body>
