@@ -104,8 +104,8 @@ window.addEventListener("load",function(){
 });
 
 var harajukuKawaiiCanvas = (function(){
-  "use strict";
-  var initModule, handleFadeOut, handleTick, handleResize, handleMouseWheelRotation, handleMouseDragOver, handleMouseDrop, handleMouseDown, handleMouseUp, updateForEach,
+
+  var initModule, handleFadeOut, handleTick, handleResize, handleMouseWheelRotation, handleMouseDown, handleMouseUp, updateForEach,
 
   fadeOutTimer,
   stage,
@@ -116,8 +116,6 @@ var harajukuKawaiiCanvas = (function(){
 
   initModule = function(id){
     var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
-    myCanvas.addEventListener("dragover", handleMouseDragOver);
-    myCanvas.addEventListener("drop", handleMouseDrop);
     myCanvas.addEventListener("mousedown", handleMouseDown);
     myCanvas.addEventListener("mouseup", handleMouseUp);
     document.onkeydown = function (e) {
@@ -192,7 +190,7 @@ var harajukuKawaiiCanvas = (function(){
     $('#superImpose').css('animation', 'FadeOut 1s ease 0.1s forwards');
   };
 
-  handleTick = function(){
+  handleTick = function () {
     var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = 0.5*(mouseX - prevX), vy = 0.5*(mouseY - prevY), vNorm = Math.sqrt(vx*vx+vy*vy),
     f  = (255*vNorm / 60.0) - Math.floor(255*vNorm / 60.0),
     p  = Math.round(255 * (1.0 - (255 / 255.0))),
@@ -231,7 +229,6 @@ var harajukuKawaiiCanvas = (function(){
       }
       prevX = mouseX, prevY = mouseY;
     }
-    paint = false;
     bubbleArray.forEach(updateForEach);
     rainArray.forEach(updateForEach);
     basicArray.forEach(updateForEach);
@@ -247,22 +244,6 @@ var harajukuKawaiiCanvas = (function(){
     brushThickness += 0.001*e.deltaY;
     $('#superImpose').css('animation', '').css('opacity', '0.8').text("Brush Thickness: "+Math.abs(brushThickness));
     fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
-  };
-
-  handleMouseDragOver = function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  };
-
-  handleMouseDrop = function (e) {
-    e.preventDefault();
-    var droppedFile = e.dataTransfer.files[0],
-    reader = new FileReader();
-    console.log(droppedFile.name);
-    reader.readAsDataURL(droppedFile);
-    var bitmap = new createjs.Bitmap('images/image_1.png');
-    stage.addChild(bitmap);
   };
 
   handleMouseDown = function (e) {

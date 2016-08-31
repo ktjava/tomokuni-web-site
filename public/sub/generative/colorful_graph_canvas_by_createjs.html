@@ -115,8 +115,6 @@ var colorfulGraphCanvas = (function(){
 
   initModule = function(id){
     var spaShellOpening = document.getElementById("opening"), myCanvas = document.getElementById("myCanvas");
-    myCanvas.addEventListener("dragover", handleMouseDragOver);
-    myCanvas.addEventListener("drop", handleMouseDrop);
     myCanvas.addEventListener("mousedown", handleMouseDown);
     myCanvas.addEventListener("mouseup", handleMouseUp);
     document.getElementById("opening-click").addEventListener("click", function () {
@@ -188,7 +186,6 @@ var colorfulGraphCanvas = (function(){
       }
       prevX = mouseX, prevY = mouseY;
     }
-    mouseMove = false;
     line.graphics.clear();
     line.graphics.beginStroke(color);
     line.graphics.moveTo(nodeArray[0].arc.x,nodeArray[0].arc.y);
@@ -211,22 +208,6 @@ var colorfulGraphCanvas = (function(){
     brushThickness += 0.001*e.deltaY;
     $('#superImpose').css('animation', '').css('opacity', '0.8').text("Brush Thickness: "+Math.abs(brushThickness));
     fadeOutTimer = window.setTimeout(handleFadeOut, 1000);
-  };
-
-  handleMouseDragOver = function (e) {
-    e.stopPropagation();
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'copy';
-  };
-
-  handleMouseDrop = function (e) {
-    e.preventDefault();
-    var droppedFile = e.dataTransfer.files[0],
-    reader = new FileReader();
-    console.log(droppedFile.name);
-    reader.readAsDataURL(droppedFile);
-    var bitmap = new createjs.Bitmap('images/image_1.png');
-    stage.addChild(bitmap);
   };
 
   handleMouseDown = function (e) {
@@ -272,7 +253,6 @@ var colorfulGraphCanvas = (function(){
 
   return { initModule : initModule };
 })();
-
 -->
 </script>
 </body>
