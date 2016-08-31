@@ -47,11 +47,8 @@ var project;
     * エンターフレームイベント
     */
     Main.prototype.handleTick = function () {
-      var gCurve = this.shapeCurve.graphics;
-      // 描画をリセット
+      var gCurve = this.shapeCurve.graphics, stageX = this.stageForDisplay.mouseX, stageY = this.stageForDisplay.mouseY;
       gCurve.clear().setStrokeStyle(1);
-      var stageX = this.stageForDisplay.mouseX;
-      var stageY = this.stageForDisplay.mouseY;
       this.mousePositions.unshift(new createjs.Point(stageX, stageY));
       for (var i = 0; i < this.pathList.length; i++) {
         var p = this.pathList[i];
@@ -178,14 +175,14 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, nodeNumber=5, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, nodeNumber=100, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
   stage.autoClear = false;
   for(var i=0; i<nodeNumber; ++i){
     var n = new Node();
-    n.setup(0, 0, 0, 0, "rgba("+255+","+255+","+255+",1)");
+    n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
     nodeArray.push(n);
   }
   background = new createjs.Shape();
@@ -236,7 +233,7 @@ function handleTick(){
   nodeArray.forEach(updateForEach);
 }
 function handleResize() {
-  stage.canvas.width = innerWidth;
+  stage.canvas.width = innerWidth,
   stage.canvas.height = innerHeight;
   background.graphics.clear();
   background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
@@ -253,23 +250,23 @@ var Node = (function () {
     stage.addChild(this.polystar);
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
-    this.circle.graphics.beginFill(color).drawCircle(0, 0, 5*Math.log(Math.sqrt(vx*vx+vy*vy)+1));
-    this.circle.x = x;
-    this.circle.y = y;
-    this.polystar.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar(0,0,Math.log(Math.sqrt(vx*vx+vy*vy)+1),10,10,Math.PI/6);
-    this.polystar.x = x;
-    this.polystar.y = y;
-    this.vx = vx;
+    this.mag = Math.log(Math.sqrt(vx*vx+vy*vy)+1),
+    this.circle.x = this.polystar.x = x,
+    this.circle.y = this.polystar.y = y,
+    this.vx = vx,
     this.vy = vy;
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, 5*this.mag);
+    this.polystar.graphics.setStrokeStyle(0).beginFill(color).drawPolyStar(0,0,this.mag,10,10,Math.PI/6);
     stage.setChildIndex (this.circle,nodeNumber);
+    stage.setChildIndex (this.polystar,nodeNumber);
   };
   Node.prototype.update = function () {
-    this.vx *= 0.9;
-    this.vy *= 0.9;
-    this.circle.x += this.vx + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.sin(0.01*this.circle.y);
-    this.circle.y += this.vy + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.cos(0.01*this.circle.x);
-    this.polystar.x += this.vx + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.sin(0.01*this.circle.y) + 50 * (Math.random() - 0.5);
-    this.polystar.y += this.vy + Math.log(Math.sqrt(this.vx*this.vx+this.vy*this.vy)+1)*Math.cos(0.01*this.circle.x) + 50 * (Math.random() - 0.5);
+    this.vx *= 0.9,
+    this.vy *= 0.9,
+    this.circle.x += this.vx + this.mag*Math.sin(0.01*this.circle.y),
+    this.circle.y += this.vy + this.mag*Math.cos(0.01*this.circle.x),
+    this.polystar.x += this.vx + this.mag*Math.sin(0.01*this.circle.y) + 50 * (Math.random() - 0.5),
+    this.polystar.y += this.vy + this.mag*Math.cos(0.01*this.circle.x) + 50 * (Math.random() - 0.5);
   };
   return Node;
 })();

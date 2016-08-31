@@ -161,13 +161,15 @@
 				var spaShellOpening = document.getElementById("spa-shell-opening"),
 				spaShellMain = document.getElementById("spa-shell-main");
 				document.getElementById("spa-shell-opening-click").addEventListener("click", function () {
-					spaShellOpening.style.top = "-1000px";
-					spaShellOpening.style.opacity = "0";
-					spaShellMain.style.color = "#000000";
+					delete project;
+					spaShellOpening.style.top = "-1000px",
+					spaShellOpening.style.opacity = "0",
+					spaShellMain.style.color = "#000000",
 					spaShellMain.style.opacity = "0.8";
 				});
-				if(spaShellOpening.style.top == "-1000px")
+				if(spaShellOpening.style.top == "-1000px"){
 					spaShellOpening.parentNode.removeChild(spaShellOpening);
+				}
 				$('.spa-shell-main-profile-header').vegas({
 					timer: false,
 					preload: true,
