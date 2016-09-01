@@ -175,7 +175,7 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, nodeNumber=100, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, text, nodeNumber=100, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
@@ -185,6 +185,9 @@ function setup(){
     n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
     nodeArray.push(n);
   }
+  text = new createjs.Text("", "64px Arial", "#ff0000");
+  text.textBaseline = "alphabetic";
+  stage.addChild(text);
   background = new createjs.Shape();
 	background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
   background.alpha = 0.03;
@@ -225,6 +228,7 @@ function handleTick(){
     default:
       break;
   }
+  text.x = mouseX, text.y = mouseY, text.text = Math.floor(mouseX) + " , " + Math.floor(mouseY);
   nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",1)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
@@ -263,8 +267,8 @@ var Node = (function () {
   Node.prototype.update = function () {
     this.vx *= 0.9,
     this.vy *= 0.9,
-    this.circle.x += this.vx + this.mag*Math.sin(0.01*this.circle.y),
-    this.circle.y += this.vy + this.mag*Math.cos(0.01*this.circle.x),
+    this.circle.x += this.vx + 0.003 * (stage.mouseX - innerWidth / 2) + this.mag*Math.sin(0.01*this.circle.y),
+    this.circle.y += this.vy + 0.003 * (stage.mouseY - innerHeight / 2) + this.mag*Math.cos(0.01*this.circle.x),
     this.polystar.x += this.vx + this.mag*Math.sin(0.01*this.circle.y) + 50 * (Math.random() - 0.5),
     this.polystar.y += this.vy + this.mag*Math.cos(0.01*this.circle.x) + 50 * (Math.random() - 0.5);
   };
