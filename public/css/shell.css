@@ -193,7 +193,7 @@ div#noise_narrow {
 	-ms-transition: 0.8s;
 	transition: 0.8s;
   text-align:center;
-	background-image: url("../img/nature.jpg");
+	background-image: url("../img/nature.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
