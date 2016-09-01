@@ -180,6 +180,10 @@ var stage, circle, line, background, text, nodeNumber=100, nodeArray = [], linkA
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
   stage.autoClear = false;
+  text_message = new createjs.Text("This is the Image Generation Example by HTML5 ...", "64px Arial", "#aa0000");
+  text_message.textBaseline = "alphabetic";
+  text_message.x = (innerWidth - text_message.getBounds().width) / 2, text_message.y = (innerHeight - text_message.getBounds().height) / 2;
+  stage.addChild(text_message);
   for(var i=0; i<nodeNumber; ++i){
     var n = new Node();
     n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
@@ -229,6 +233,12 @@ function handleTick(){
       break;
   }
   text.x = mouseX, text.y = mouseY, text.text = Math.floor(mouseX) + " , " + Math.floor(mouseY);
+  text_message.y += 0.01 * (stage.mouseY - innerHeight / 2);
+  if(text_message.y <= text_message.getBounds().height / 2){
+     text_message.y = text_message.getBounds().height / 2;
+  }else if(text_message.y >= innerHeight){
+    text_message.y = innerHeight;
+  }
   nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",1)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
@@ -239,6 +249,7 @@ function handleTick(){
 function handleResize() {
   stage.canvas.width = innerWidth,
   stage.canvas.height = innerHeight;
+  text_message.x = (innerWidth - text_message.getBounds().width) / 2, text_message.y = (innerHeight - text_message.getBounds().height) / 2;
   background.graphics.clear();
   background.graphics.beginFill("green").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
