@@ -236,7 +236,7 @@ function handleResize() {
   stage.canvas.width = innerWidth,
   stage.canvas.height = innerHeight;
   background.graphics.clear();
-  background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.graphics.beginFill("green").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 function updateForEach(element, index, array) {
   element.update();
