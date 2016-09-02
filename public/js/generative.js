@@ -192,7 +192,7 @@ function setup(){
     n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
     nodeArray.push(n);
   }
-  text = new createjs.Text("", "64px Arial", "#ff0000");
+  text = new createjs.Text("", "32px Arial", "#ff0000");
   text.textBaseline = "alphabetic";
   text.alpha = 0.8;
   stage.addChild(text);
@@ -238,10 +238,10 @@ function handleTick(){
       break;
   }
   text.x = mouseX, text.y = mouseY, text.text = Math.floor(mouseX) + " , " + Math.floor(mouseY) +  " , "  + Math.floor(100*rotMag);
-  text_message.x = 10*rotMag * (Math.random() - 0.5);
+  text_message.x = 10 * rotMag * (Math.random() - 0.5);
   text_message.y += 0.01 * (stage.mouseY - innerHeight / 2);
-  if(text_message.y <= text_message.getBounds().height / 2){
-     text_message.y = text_message.getBounds().height / 2;
+  if(text_message.y <= innerHeight / 2){
+     text_message.y = innerHeight / 2;
   }else if(text_message.y >= innerHeight){
     text_message.y = innerHeight;
   }
@@ -290,7 +290,7 @@ var Node = (function () {
     this.circle.x += this.vx + 0.003 * (stage.mouseX - innerWidth / 2) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth),
     this.circle.y += this.vy + 0.003 * (stage.mouseY - innerHeight / 2) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight),
     this.polystar.x += this.vx + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 50 * (Math.random() - 0.5),
-    this.polystar.y += this.vy + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 50 * (Math.random() - 0.5);
+    this.polystar.y += this.vy + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 2*Math.random();
   };
   return Node;
 })();
