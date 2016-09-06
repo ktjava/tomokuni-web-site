@@ -14,7 +14,7 @@
 
 @keyframes FadeIn {
   0% {color:#00ff00;opacity:0;}
-  100% {color:#00ffaa;opacity:0.8;}
+  100% {color:#ffff00;opacity:0.8;}
 }
 
 @keyframes noiseMove {
@@ -236,7 +236,7 @@ div#noise_narrow {
   z-index: 4;
   font-size: 64px;
   color: #ffffff;
-  background: #00aa00;
+  background: #eedcb3;
 	animation: FadeIn 1s ease 0.1s forwards;
 	opacity: 0;
 }
