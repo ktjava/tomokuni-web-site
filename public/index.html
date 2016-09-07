@@ -30,11 +30,15 @@
 			</div>
 			<div class="spa-shell-main-portfolio">
 				<div class="spa-shell-main-portfolio-header">Portfolio</div>
-				<div class="spa-shell-main-portfolio-content"><a href="#spa-shell-modal-mwindow01"><img class="spa-shell-main-portfolio-img" src="img/MindCommunicator_osc.png"></a><br><a href="#spa-shell-modal-mwindow02"><img class="spa-shell-main-portfolio-img" src="img/GenerativeCeramics.png"></a><br><a href="#spa-shell-modal-mwindow03"><img class="spa-shell-main-portfolio-img" src="img/css3exp.png"></a><br><a href="#spa-shell-modal-mwindow04"><img class="spa-shell-main-portfolio-img" src="img/desk.png"></a><br><a href="#spa-shell-modal-mwindow05"><img class="spa-shell-main-portfolio-img" src="img/spectrum.png"></a><br><a href="#spa-shell-modal-mwindow06"><img class="spa-shell-main-portfolio-img" src="img/ryokan.jpg"></a><br><a href="#spa-shell-modal-mwindow07"><img class="spa-shell-main-portfolio-img" src="img/SpaceInvaders.jpg"></a><br><a href="#spa-shell-modal-mwindow08"><img class="spa-shell-main-portfolio-img" src="img/winter.png"></a><br><a href="#spa-shell-modal-mwindow09"><img class="spa-shell-main-portfolio-img" src="img/gatag-00002971.jpg"></a></div>
+				<div class="spa-shell-main-portfolio-content"><a href="#spa-shell-modal-mwindow01"><img class="spa-shell-main-portfolio-img" src="img/MindCommunicator_osc.png"></a><br><a href="#spa-shell-modal-mwindow02"><img class="spa-shell-main-portfolio-img" src="img/GenerativeCeramics.png"></a><br><a href="#spa-shell-modal-mwindow03"><img class="spa-shell-main-portfolio-img" src="img/css3exp.png"></a><br><a href="#spa-shell-modal-mwindow04"><img class="spa-shell-main-portfolio-img" src="img/desk.png"></a><br><a href="#spa-shell-modal-mwindow05"><img class="spa-shell-main-portfolio-img" src="img/spectrum.png"></a></div>
 			</div>
 			<div class="spa-shell-main-generative-test">
-				<div class="spa-shell-main-generative-test-header">Generative Test</div>
+				<div class="spa-shell-main-generative-test-header">Generation Test</div>
 				<div class="spa-shell-main-generative-test-content"><a href="sub/generative/basic_particles.html" target="_blank">Basic Particles</a><br><a href="sub/generative/colorful_rain.html" target="_blank">Colorful Rain</a><br><a href="sub/generative/colorful_bubbles.html" target="_blank">Colorful Bubbles</a><br><a href="sub/generative/colorful_graph.html" target="_blank">Colorful Graph</a><br><a href="sub/generative/colorful_particles_integration.html" target="_blank">Colorful Particles Integration</a><br><a href="sub/generative/kawaii_canvas_by_createjs.html" target="_blank">Kawaii Canvas by CreateJS</a><br><a href="sub/generative/colorful_graph_canvas_by_createjs.html" target="_blank">Colorful Graph Canvas by CreateJS</a></div>
+			</div>
+			<div class="spa-shell-main-experimental-music">
+				<div class="spa-shell-main-experimental-music-header">Experimental Music</div>
+				<div class="spa-shell-main-experimental-music-content"><br><a href="#spa-shell-modal-mwindow06"><img class="spa-shell-main-portfolio-img" src="img/ryokan.jpg"></a><br><a href="#spa-shell-modal-mwindow07"><img class="spa-shell-main-portfolio-img" src="img/SpaceInvaders.jpg"></a><br><a href="#spa-shell-modal-mwindow08"><img class="spa-shell-main-portfolio-img" src="img/winter.png"></a><br><a href="#spa-shell-modal-mwindow09"><img class="spa-shell-main-portfolio-img" src="img/gatag-00002971.jpg"></a></div>
 			</div>
 			<div class="spa-shell-main-logo">
 				<div class="spa-shell-main-logo-header">SNS Icons</div>
@@ -194,6 +198,19 @@
 					animationDuration: 20000,
 					slides: [
 						{ src: 'img/background/Generative_ja.png' }
+					]
+				});
+				$('.spa-shell-main-experimental-music-header').vegas({
+					timer: false,
+					preload: true,
+					overlay: true,
+					transition: 'blur',
+					transitionDuration: 5000,
+					delay: 15000,
+					animation: 'random',
+					animationDuration: 20000,
+					slides: [
+						{ src: 'img/background/experimental_music.png' }
 					]
 				});
 				$('.spa-shell-main-portfolio-header').vegas({
