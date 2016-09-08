@@ -192,7 +192,7 @@ function setup(){
     n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
     nodeArray.push(n);
   }
-  text = new createjs.Text("", "32px Arial", "#ffff00");
+  text = new createjs.Text("", "16px Arial", "#ffff00");
   text.textBaseline = "alphabetic";
   text.alpha = 0.8;
   stage.addChild(text);
@@ -280,7 +280,7 @@ var Node = (function () {
     this.vy = vy,
     this.circle.x = this.polystar.x = x,
     this.circle.y = this.polystar.y = y;
-    this.circle.graphics.beginFill(color).drawCircle(0, 0, 5*this.mag);
+    this.circle.graphics.beginFill(color).drawCircle(0, 0, 4*this.mag);
     this.polystar.graphics.beginFill(color).drawPolyStar(0,0,0.2*this.mag,10,10,Math.PI/6);
     stage.setChildIndex (this.circle,nodeNumber);
     stage.setChildIndex (this.polystar,nodeNumber);
@@ -290,8 +290,8 @@ var Node = (function () {
     this.vy *= 0.9,
     this.circle.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + 0.003 * (stage.mouseX - innerWidth / 2) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth),
     this.circle.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + 0.003 * (stage.mouseY - innerHeight / 2) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight),
-    this.polystar.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 25 * (Math.random() - 0.5),
-    this.polystar.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 25 * (Math.random() - 0.5);
+    this.polystar.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 10 * (Math.random() - 0.5),
+    this.polystar.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 10 * (Math.random() - 0.5);
   };
   return Node;
 })();

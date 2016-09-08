@@ -59,7 +59,7 @@ a:hover {
 
 div#noise_broad {
   will-change: scroll-position;
-	z-index: 26;
+	z-index: 8;
 	margin: 0;
   position: fixed !important;
   position: absolute;
@@ -74,7 +74,7 @@ div#noise_broad {
 }
 div#noise_narrow {
   will-change: scroll-position;
-	z-index: 27;
+	z-index: 7;
 	margin: 0;
   position: fixed !important;
   position: absolute;
@@ -186,7 +186,7 @@ div#noise_narrow {
   height: 100%;
   position: fixed !important;
   background: #ffffff;
-  z-index: 4;
+  z-index: 10;
   -webkit-transition: 0.8s;
 	-moz-transition: 0.8s;
 	-o-transition: 0.8s;
