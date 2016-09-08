@@ -291,7 +291,7 @@ var Node = (function () {
     this.circle.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + 0.003 * (stage.mouseX - innerWidth / 2) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth),
     this.circle.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + 0.003 * (stage.mouseY - innerHeight / 2) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight),
     this.polystar.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 25 * (Math.random() - 0.5),
-    this.polystar.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 2*Math.random();
+    this.polystar.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 25 * (Math.random() - 0.5);
   };
   return Node;
 })();
