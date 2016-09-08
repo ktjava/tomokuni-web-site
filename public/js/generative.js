@@ -281,7 +281,7 @@ var Node = (function () {
     this.circle.x = this.polystar.x = x,
     this.circle.y = this.polystar.y = y;
     this.circle.graphics.beginFill(color).drawCircle(0, 0, 5*this.mag);
-    this.polystar.graphics.beginFill(color).drawPolyStar(0,0,this.mag,10,10,Math.PI/6);
+    this.polystar.graphics.beginFill(color).drawPolyStar(0,0,0.2*this.mag,10,10,Math.PI/6);
     stage.setChildIndex (this.circle,nodeNumber);
     stage.setChildIndex (this.polystar,nodeNumber);
   };
