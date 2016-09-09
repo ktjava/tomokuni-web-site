@@ -196,12 +196,11 @@ function setup(){
   text.textBaseline = "alphabetic";
   text.alpha = 0.8;
   stage.addChild(text);
-  bitmap = new createjs.Bitmap("../nature.png");
-  
-  //background = new createjs.Shape();
-	//background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
-  //background.alpha = 0.03;
-	//stage.addChild(background);
+  //bitmap = new createjs.Bitmap("../nature.png");
+  background = new createjs.Shape();
+	background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.alpha = 0.03;
+	stage.addChild(background);
   document.addEventListener("wheel", handleMouseWheelRotation);
   handleResize();
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
