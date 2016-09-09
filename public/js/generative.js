@@ -175,7 +175,7 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, text, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=0, count=0;
+var stage, circle, line, background, bitmap, text, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
@@ -196,10 +196,12 @@ function setup(){
   text.textBaseline = "alphabetic";
   text.alpha = 0.8;
   stage.addChild(text);
-  background = new createjs.Shape();
-	background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
-  background.alpha = 0.03;
-	stage.addChild(background);
+  bitmap = new createjs.Bitmap("../nature.png");
+  
+  //background = new createjs.Shape();
+	//background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  //background.alpha = 0.03;
+	//stage.addChild(background);
   document.addEventListener("wheel", handleMouseWheelRotation);
   handleResize();
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
