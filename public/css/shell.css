@@ -130,7 +130,7 @@ div#noise_narrow {
   white-space: nowrap;
   overflow: hidden;
   position: fixed;
-  background: #ffffff;
+  background: #4B0082;
   opacity: 0.5;
   z-index: 2;
 }
