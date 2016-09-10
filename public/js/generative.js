@@ -175,7 +175,7 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, bitmap, text, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=0, count=0;
+var stage, circle, line, background, bitmap, text, mtx, img, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
@@ -196,10 +196,13 @@ function setup(){
   text.textBaseline = "alphabetic";
   text.alpha = 0.8;
   stage.addChild(text);
-  //bitmap = new createjs.Bitmap("../nature.png");
   background = new createjs.Shape();
-	background.graphics.beginFill("white").drawRect(0, 0, innerWidth, innerHeight).endFill();
   background.alpha = 0.03;
+  img = new Image();
+  img.src = "img/nature.png";
+  img.onload = function() {
+	  background.graphics.beginBitmapFill(img, "repeat").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  };
 	stage.addChild(background);
   document.addEventListener("wheel", handleMouseWheelRotation);
   handleResize();
@@ -258,7 +261,7 @@ function handleResize() {
   stage.canvas.height = innerHeight;
   text_message.x = (innerWidth - text_message.getBounds().width) / 2, text_message.y = (innerHeight - text_message.getBounds().height);
   background.graphics.clear();
-  background.graphics.beginFill("#eedcb3").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  background.graphics.beginBitmapFill(img, "repeat").drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 function handleMouseWheelRotation(e) {
   rotMag += 0.001*e.deltaY;
