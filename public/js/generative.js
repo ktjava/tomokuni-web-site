@@ -189,7 +189,7 @@ function setup(){
   stage.addChild(text_message);
   for(var i=0; i<nodeNumber; ++i){
     var n = new Node();
-    n.setup(0, 0, 0, 0, "rgba(255,255,255,1)");
+    n.setup(0, 0, 0, 0, "rgba(0,0,0,0)");
     nodeArray.push(n);
   }
   text = new createjs.Text("", "16px Arial", "#ffff00");
@@ -249,7 +249,7 @@ function handleTick(){
   }else if(text_message.y >= innerHeight){
     text_message.y = innerHeight;
   }
-  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",1)");
+  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",0.3)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
     count = 0;
@@ -277,17 +277,22 @@ var Node = (function () {
     this.polystar = new createjs.Shape();
     this.polystar.graphics.setStrokeStyle(0);
     stage.addChild(this.polystar);
+    this.polystar_big = new createjs.Shape();
+    this.polystar_big.graphics.setStrokeStyle(0);
+    stage.addChild(this.polystar_big);
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
     this.mag = Math.log(Math.sqrt(vx*vx+vy*vy)+1),
     this.vx = vx,
     this.vy = vy,
-    this.circle.x = this.polystar.x = x,
-    this.circle.y = this.polystar.y = y;
+    this.circle.x = this.polystar.x = this.polystar_big.x = x,
+    this.circle.y = this.polystar.y = this.polystar_big.y = y;
     this.circle.graphics.beginFill(color).drawCircle(0, 0, 4*this.mag);
     this.polystar.graphics.beginFill(color).drawPolyStar(0,0,0.2*this.mag,10,10,Math.PI/6);
+    this.polystar_big.graphics.beginFill(color).drawPolyStar(0,0,0.6*this.mag,10,10,Math.PI/6);
     stage.setChildIndex (this.circle,nodeNumber);
     stage.setChildIndex (this.polystar,nodeNumber);
+    stage.setChildIndex (this.polystar_big,nodeNumber);
   };
   Node.prototype.update = function () {
     this.vx *= 0.9,
@@ -296,6 +301,8 @@ var Node = (function () {
     this.circle.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + 0.003 * (stage.mouseY - innerHeight / 2) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight),
     this.polystar.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 10 * (Math.random() - 0.5),
     this.polystar.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 10 * (Math.random() - 0.5);
+    this.polystar_big.x += this.vx + 0.01 * (stage.mouseX - this.circle.x) + this.mag*Math.sin(0.01*this.circle.y) + rotMag*Math.sin(2*Math.PI*(this.circle.y - stage.mouseY)/innerWidth) + 10 * (Math.random() - 0.5),
+    this.polystar_big.y += this.vy + 0.01 * (stage.mouseY - this.circle.y) + this.mag*Math.cos(0.01*this.circle.x) + rotMag*Math.cos(2*Math.PI*(this.circle.x - stage.mouseX)/innerHeight) + 10 * (Math.random() - 0.5);
   };
   return Node;
 })();
