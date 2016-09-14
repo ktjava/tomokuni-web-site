@@ -166,17 +166,17 @@ var harajukuKawaiiCanvas = (function(){
     stage.compositeOperation = "normal";
     for(var i=0; i<nodeNumber; ++i){
       var n = new BubbleNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
+      n.setup(0, innerHeight, 0, 0, "rgba(0,0,0,0)");
       bubbleArray.push(n);
     }
     for(var i=0; i<nodeNumber; ++i){
       var n = new RainNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
+      n.setup(0, innerHeight, 0, 0, "rgba(0,0,0,0)");
       rainArray.push(n);
     }
     for(var i=0; i<nodeNumber; ++i){
       var n = new BasicNode();
-      n.setup(0, innerHeight, 0, 0, "rgba(255,255,255,1)");
+      n.setup(0, innerHeight, 0, 0, "rgba(0,0,0,0)");
       basicArray.push(n);
     }
     handleResize();
