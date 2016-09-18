@@ -194,12 +194,12 @@ function setup(){
   }
   text = new createjs.Text("", "16px Arial", "#ffff00");
   text.textBaseline = "alphabetic";
-  text.alpha = 0.8;
+  text.alpha = 0.99;
   stage.addChild(text);
   background = new createjs.Shape();
   background.alpha = 0.03;
   img = new Image();
-  img.src = "img/nature.png";
+  img.src = "img/opening_bg.png";
   img.onload = function() {
 	  background.graphics.beginBitmapFill(img, "repeat").drawRect(0, 0, innerWidth, innerHeight).endFill();
   };
@@ -249,7 +249,7 @@ function handleTick(){
   }else if(text_message.y >= innerHeight){
     text_message.y = innerHeight;
   }
-  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",0.3)");
+  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",0.7)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
     count = 0;
