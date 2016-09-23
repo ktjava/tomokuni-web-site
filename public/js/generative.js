@@ -175,7 +175,7 @@ var project;
   })();
 })(project || (project = {}));
 
-var stage, circle, line, background, bitmap, text, mtx, img, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=0, count=0;
+var stage, circle, line, background, bitmap, text, mtx, img, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, rotMag=5, count=0;
 
 function setup(){
   stage = new createjs.Stage("spa-shell-opening-bg_canvas");
@@ -249,7 +249,7 @@ function handleTick(){
   }else if(text_message.y >= innerHeight){
     text_message.y = innerHeight;
   }
-  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",0.7)");
+  nodeArray[count].setup(mouseX, mouseY, vx, vy, "rgba("+red+","+green+","+blue+",0.1)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
     count = 0;
