@@ -73,9 +73,9 @@ a:hover {
   color: #ff0000;
 }
 
-div#noise_broad {
+/*div#noise_broad {
   will-change: scroll-position;
-	z-index: 8;
+	z-index: 11;
 	margin: 0;
   position: fixed !important;
   position: absolute;
@@ -90,7 +90,7 @@ div#noise_broad {
 }
 div#noise_narrow {
   will-change: scroll-position;
-	z-index: 7;
+	z-index: 11;
 	margin: 0;
   position: fixed !important;
   position: absolute;
@@ -102,7 +102,7 @@ div#noise_narrow {
 	pointer-events: none;
 	filter:blur(1px);-ms-filter:blur(1px);-moz-filter:blur(1px);-webkit-filter:blur(1px);-o-filter:blur(1px);
 	animation: noiseMove 15s linear 0s infinite forwards;
-}
+}*/
 
 /* Modal Window */
 
@@ -367,7 +367,7 @@ div#noise_narrow {
   left   : 0;
   right  : 0;
   height : 50px;
-  background : #dddd00;
+  background : #66ee66;
   padding: 20px;
 }
 .spa-shell-main-profile-content {
@@ -386,7 +386,7 @@ div#noise_narrow {
   left   : 0;
   right  : 0;
   height : 50px;
-  background    : #00dd00;
+  background    : #66ee66;
   padding: 20px;
 }
 .spa-shell-main-portfolio-content {
@@ -407,7 +407,7 @@ div#noise_narrow {
   left   : 0;
   right  : 0;
   height : 50px;
-  background    : #00dd00;
+  background    : #66ee66;
   padding: 20px;
 }
 .spa-shell-main-generative-test-content {
@@ -425,7 +425,7 @@ div#noise_narrow {
   left   : 0;
   right  : 0;
   height : 50px;
-  background    : #00dd00;
+  background    : #66ee66;
   padding: 20px;
 }
 .spa-shell-main-experimental-music-content {
@@ -443,7 +443,7 @@ div#noise_narrow {
   left   : 0;
   right  : 0;
   height : 50px;
-  background    : #0077dd;
+  background    : #66ee66;
   padding: 20px;
 }
 .spa-shell-main-logo-content {
