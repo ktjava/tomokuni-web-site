@@ -31,7 +31,7 @@ var project;
       this.shapeCurve = new createjs.Shape();
       this.shapeCurve.mouseEnabled = false;
       this.stageEaselJS.addChild(this.shapeCurve);
-      var max = 500;
+      var max = 100;
       for (var i = 0; i < max; i++) {
         var p = new Path();
         p.setup(0, 0, 0.1 + i / max * 0.05, (60 * Math.random() * Math.random()) >> 0, i / max);
