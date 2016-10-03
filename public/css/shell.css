@@ -108,7 +108,7 @@ div#noise_narrow {
 
 @keyframes modalFadeIn {
   0% {
-		opacity:0;display:block;
+		opacity:0;
 	}
   100% {
 		opacity:1;
@@ -116,9 +116,9 @@ div#noise_narrow {
 }
 @keyframes modalSkew {
   0% {
-		-ms-transform:skew(5deg,5deg);
-		-webkit-transform:skew(5deg,5deg);
-		transform:skew(5deg,5deg);
+		-ms-transform:skew(1deg,1deg);
+		-webkit-transform:skew(1deg,1deg);
+		transform:skew(1deg,1deg);
 	}
   100% {
 		-ms-transform:skew(0,0);
@@ -153,8 +153,9 @@ div#noise_narrow {
   overflow: hidden;
   position: fixed;
   background: #00FFFF;
-  opacity: 0.1;
+  opacity: 0.2;
   z-index: 2;
+	background-image: url("../img/background/cyber-security.jpg")
 }
 .spa-shell-modal-bg {
   will-change: opacity;
