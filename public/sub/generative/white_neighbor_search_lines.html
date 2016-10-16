@@ -10,18 +10,18 @@
   <meta name="robots" content="noarchive">
   <meta name="author" lang="ja" content="Tomokuni Kani">
   <meta name="copyright" lang="ja" content="Tomokuni Kani">
-  <meta name="description" lang="ja" content="Genarative Test Page">
+  <meta name="description" lang="ja" content="Genarative Art">
   <style type="text/css">body{background-color:#000000;margin:0;padding:0;}#myCanvas{position:fixed;margin:0;padding:0;}</style>
-  <title>Colorful Rain</title>
+  <title>White Neighbor Search Lines</title>
 </head>
 <body>
 <canvas id="myCanvas" width="1024" height="768"></canvas>
 <script type="application/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+<script type="application/javascript" src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script type="application/javascript">
 <!--
 
-var stage, circle, line, background, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, nodeNumber=100, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("myCanvas");
@@ -32,6 +32,8 @@ function setup(){
     n.setup(0, 0, 0, 0, "rgba(0,0,0,0)");
     nodeArray.push(n);
   }
+  line = new createjs.Shape();
+  stage.addChildAt(line,1);
   background = new createjs.Shape();
 	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
   background.alpha = 0.03;
@@ -49,29 +51,8 @@ function handleTick(){
   q  = Math.round(255 * (1.0 - (255 / 255.0) * f)),
   t  = Math.round(255 * (1.0 - (255 / 255.0) * (1.0 - f))),
   red, green, blue;
-  switch(Math.floor(255*vNorm / 60.0) % 6){
-    case 0:
-      red = 255, green = t, blue = p;
-      break;
-    case 1:
-      red = q, green = 255, blue = p;
-      break;
-    case 2:
-      red = p, green = 255, blue = t;
-      break;
-    case 3:
-      red = p, green = q, blue = 255;
-      break;
-    case 4:
-      red = t, green = p, blue = 255;
-      break;
-    case 5:
-      red = 255, green = p, blue = q;
-      break;
-    default:
-      break;
-  }
-  nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, "rgba("+red+","+green+","+blue+",1)");
+  line.graphics.clear();
+  nodeArray[count].setup(mouseX, mouseY, mouseX - prevX, mouseY - prevY, "rgba(255,255,255,0.3)");
   prevX = mouseX, prevY = mouseY;
   if(++count >= nodeNumber){
     count = 0;
@@ -86,6 +67,14 @@ function handleResize() {
 }
 function updateForEach(element, index, array) {
   element.update();
+  line.graphics.beginStroke(element.color);
+  for(var i=0;i<nodeNumber;++i){
+    if(Math.sqrt(Math.pow(array[i].circle.x-element.circle.x,2) + Math.pow(array[i].circle.y-element.circle.y,2))<100){
+      line.graphics.moveTo(element.circle.x,element.circle.y);
+      line.graphics.lineTo(array[i].circle.x,array[i].circle.y);
+    }
+  }
+  line.graphics.closePath();
 }
 
 var Node = (function () {
@@ -95,6 +84,7 @@ var Node = (function () {
   }
   Node.prototype.setup = function (x, y, vx, vy, color) {
     this.circle.graphics.beginFill(color).drawCircle(0, 0, 1);
+    this.color = color;
     this.circle.x = x;
     this.circle.y = y;
     this.vx = vx;
@@ -105,7 +95,7 @@ var Node = (function () {
     this.vx *= 0.9;
     this.vy *= 0.9;
     this.circle.x += this.vx;
-    this.circle.y += this.vy + Math.random();
+    this.circle.y += this.vy;
   };
   return Node;
 })();

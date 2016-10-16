@@ -10,7 +10,7 @@
   <meta name="robots" content="noarchive">
   <meta name="author" lang="ja" content="Tomokuni Kani">
   <meta name="copyright" lang="ja" content="Tomokuni Kani">
-  <meta name="description" lang="ja" content="Genarative Test Page">
+  <meta name="description" lang="ja" content="Genarative Art">
   <style type="text/css">body{background-color:#000000;margin:0;padding:0;}#myCanvas{position:fixed;margin:0;padding:0;}</style>
   <title>Rainbow Colorful Bubbles</title>
 </head>
@@ -51,7 +51,7 @@ function setup(){
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
   createjs.Ticker.addEventListener("tick", stage);
   createjs.Ticker.addEventListener("tick", handleTick);
-  window.addEventListener("resize", handleResize);
+  window.onresize = handleResize;
 }
 function handleTick(){
   var mouseX = stage.mouseX, mouseY = stage.mouseY, vx = mouseX - prevX, vy = mouseY - prevY, vNorm = Math.sqrt(vx*vx+vy*vy),
@@ -128,7 +128,7 @@ var Node = (function () {
   return Node;
 })();
 
-window.addEventListener("load", setup);
+window.onload = setup;
 
 -->
 </script>
