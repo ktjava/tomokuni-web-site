@@ -12,7 +12,7 @@
   <meta name="copyright" lang="ja" content="Tomokuni Kani">
   <meta name="description" lang="ja" content="Genarative Test Page">
   <style type="text/css">body{background-color:#000000;margin:0;padding:0;}#myCanvas{position:fixed;margin:0;padding:0;}</style>
-  <title>Colorful Bubbles</title>
+  <title>Rainbow Colorful Bubbles</title>
 </head>
 <body>
 <canvas id="myCanvas" width="1024" height="768"></canvas>
@@ -21,7 +21,7 @@
 <script type="application/javascript">
 <!--
 
-var stage, circle, line, background, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
+var stage, circle, line, background, matrix2d, img, nodeNumber=1000, nodeArray = [], linkArray = [], prevX=0, prevY=0, count=0;
 
 function setup(){
   stage = new createjs.Stage("myCanvas");
@@ -34,7 +34,18 @@ function setup(){
   }
   background = new createjs.Shape();
 	background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
-  background.alpha = 0.03;
+  background.alpha = 0.3;
+  img = new Image();
+  img.src = "img/rainbow.png";
+  matrix2d = new createjs.Matrix2D(1,0,0,1,0,0);
+  img.onload = function() {
+    if(innerWidth/innerHeight>=img.width/img.height){
+      matrix2d.a = matrix2d.d = innerWidth/img.width;
+    }else{
+      matrix2d.a = matrix2d.d = innerHeight/img.height;
+    }
+    background.graphics.beginBitmapFill(img, "no-repeat", matrix2d).drawRect(0, 0, innerWidth, innerHeight).endFill();
+  };
 	stage.addChild(background);
   handleResize();
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
@@ -82,7 +93,12 @@ function handleResize() {
   stage.canvas.width = innerWidth;
   stage.canvas.height = innerHeight;
   background.graphics.clear();
-  background.graphics.beginFill("black").drawRect(0, 0, innerWidth, innerHeight).endFill();
+  if(innerWidth/innerHeight>=img.width/img.height){
+    matrix2d.a = matrix2d.d = innerWidth/img.width;
+  }else{
+    matrix2d.a = matrix2d.d = innerHeight/img.height;
+  }
+  background.graphics.beginBitmapFill(img, "no-repeat", matrix2d).drawRect(0, 0, innerWidth, innerHeight).endFill();
 }
 function updateForEach(element, index, array) {
   element.update();
